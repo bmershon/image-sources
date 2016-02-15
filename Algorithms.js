@@ -121,21 +121,37 @@ function addImageSourcesFunctions(scene) {
     //when tracing back paths
     scene.imsources = [scene.source];
 
+    var reflections = [];
+
     for (var k = 0; k < scene.imsources.length; k++) {
       let source = scene.imsources[k];
       let I = mat4.create();
       mat4.identity(I);
 
-      // start at top of scene with identity world transformation
-      visitTransformedChildren(scene, I, function(child, T) {
+      // callback child now has additional accumulated transform property
+      accumulateTransforms(scene, I, function(child) {
         if('mesh' in child) {
           for (var f = 0; f < child.mesh.faces.length; f++) {
             let face = child.mesh.faces[f];
-            console.debug(face, T);
+            let normal = vec3.create();
+            let projected = vec3.create();
+            let M = mat3.create();
+            let M_inv = mat3.create();
+            let normalMatrix = mat3.create();
+            mat4.reduce(M, child.accumulated);
+            mat3.invert(M_inv, M);
+            mat3.transpose(normalMatrix, M_inv);
+
+            vec3.transformMat3(normal, face.getNormal(), normalMatrix);
+            vec3.normalize(normal, normal);
+            reflections.push({pos: normal});
+            console.log(normal, face.getNormal());
           }
         }
       });
     }
+
+    scene.imsources = scene.imsources.concat(reflections);
     
     //TODO: Fill the rest of this in.  Be sure to reflect images across faces
     //in world coordinates, not the faces in the original mesh coordinates
@@ -146,15 +162,16 @@ function addImageSourcesFunctions(scene) {
     
   }   
 
-  // recursively traverse all children in scenegraph
-  function visitTransformedChildren(node, transform, callback) {
+  // recursively traverse all children in scenegraph, adding accumulated property
+  function accumulateTransforms(node, transform, callback) {
     if (node === null || node === undefined) return;
 
     var accumulated = mat4.create();
 
     if (node.transform) {
       mat4.mul(accumulated, transform, node.transform);
-      callback(node, accumulated);
+      node.accumulated = accumulated;
+      callback(node);
     } else {
       mat4.identity(accumulated);
     }
@@ -163,7 +180,7 @@ function addImageSourcesFunctions(scene) {
    
     for (let i = 0; i < node.children.length; i++) {
       let child = node.children[i];
-      visitTransformedChildren(child, accumulated, callback);
+      accumulateTransforms(child, accumulated, callback);
     }
   } 
   

@@ -1,0 +1,3 @@
+[submodule "libs/geometric-primitives"]
+	path = libs/geometric-primitives
+	url = https://github.com/bmershon/geometric-primitives
