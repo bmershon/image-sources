@@ -122,7 +122,6 @@ function addImageSourcesFunctions(scene) {
 
     while (l < order) {
 
-      // let is block scope, var makes it global, which is bad
       let N = scene.imsources.length;
 
       for (var k = 0; k < N; k++) {
@@ -130,8 +129,6 @@ function addImageSourcesFunctions(scene) {
 
         if (source.order < l - 1) continue;
 
-        // will just do with each child what the callback specifies
-        // visit children is itself recursive, and finishes when it is totally done
         visitChildren(scene, function(parent, child) {
           if('mesh' in child) {
             for (var f = 0; f < child.mesh.faces.length; f++) {
@@ -149,17 +146,17 @@ function addImageSourcesFunctions(scene) {
               let offset = vec3.create();
               let M = mat3.create();
 
-              // replace this clunky normalMatrix operation
+              // Transform normal with normalMatrix
               mat3.normalFromMat4(M, child.accumulated);
               vec3.transformMat3(normal, face.getNormal(), M);
               vec3.normalize(normal, normal);
-
               vec3.transformMat4(v, face.getCentroid(), child.accumulated);
               
+              // project onto plane normal
               vec3.sub(w, v, p);
               projected = vec3.project(w, normal);
               vec3.scale(offset, projected, 2);
-              vec3.add(r, p, offset); // reflected point
+              vec3.add(r, p, offset);
 
               scene.imsources.push({
                 pos: r,
@@ -194,14 +191,14 @@ function addImageSourcesFunctions(scene) {
   } 
 
   // recursively traverse all children in scenograph
-  // callback takes parameters (parent, child)
+  // passes current child and its parent to callback
   function visitChildren(parent, callback) {
     if (parent === null || !parent.children) return;
 
     for (let i = 0; i < parent.children.length; i++) {
       let child = parent.children[i];
-      callback(parent, child); // do what you will with child and its parent
-      visitChildren(child); // so fancy, so concise, so unreadable, such compact
+      callback(parent, child);
+      visitChildren(child, callback);
     }
   }
 

@@ -449,8 +449,6 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     requestAnimFrame(glcanvas.repaint);
   }
 
-
-
   /////////////////////////////////////////////////////
   //Step 4: Initialize Web GL
   /////////////////////////////////////////////////////
