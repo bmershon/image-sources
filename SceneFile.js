@@ -87,6 +87,7 @@ function setupScene(scene, glcanvas) {
   
   //By default no paths and no image sources; user chooses when to compute
   scene.imsources = [scene.source];
+  scene.reflections = [];
   scene.paths = [];
   scene.impulseResp = [];//Will hold the discrete impulse response
   
@@ -396,6 +397,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     requestAnimFrame(glcanvas.repaint);
   }
 
+  // preprocessing step
   glcanvas.accumulateTransforms = function() {
     console.log("Accumulating transforms for all children");
     glcanvas.scene.accumulateTransforms(glcanvas.scene);

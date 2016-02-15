@@ -165,7 +165,7 @@
   function callComputeImageSources() {
     var orderTxt = document.getElementById("sourceorder");
     var order = parseInt(orderTxt.value);
-    glcanvas.accumulateTransforms();
+    glcanvas.accumulateTransforms(); // preprocessing step
     glcanvas.computeImageSources(order);
   }
   function callExtractPaths() {

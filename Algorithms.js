@@ -110,29 +110,30 @@ function addImageSourcesFunctions(scene) {
   
   //Inputs: order (int) : The maximum number of bounces to take
   scene.computeImageSources = function(order) {
-    scene.source.order = 0;//Store an order field to figure out how many 
-    //bounces a particular image represents
-    scene.source.rcoeff = 1.0;//Keep track of the reflection coefficient of the node that
-    //gave rise to this source
-    scene.source.parent = null;//Keep track of the image source's parent
-    scene.source.genFace = null;//Keep track of the mesh face that generated this image
-    //Remember not to reflect an image across the face that just generated it, 
-    //or you'll get its parent image.  This information can also be used later
-    //when tracing back paths
-    scene.imsources = [scene.source];
 
-    var reflections = [];
+    order = (isNaN(order)) ? 0 : order;
 
-    for (var k = 0; k < scene.imsources.length; k++) {
-      let source = scene.imsources[k];
-      let I = mat4.create();
-      mat4.identity(I);
+    scene.source.order = 0;
+    scene.source.rcoeff = 1.0;
+    scene.source.parent = null;
+    scene.source.genFace = null;
+
+    scene.reflections = (scene.reflections.length > 0) ? scene.reflections : [scene.source];
+    var N = scene.reflections.length;
+    scene.imsources = [];
+
+    if (order == 0) return;
+
+    for (var k = 0; k < N; k++) {
+      let source = scene.reflections[k];
 
       // callback child now has additional accumulated transform property
       visitChildren(scene, function(parent, child) {
         if('mesh' in child) {
           for (var f = 0; f < child.mesh.faces.length; f++) {
             let face = child.mesh.faces[f];
+            if (face == source.genFace) continue;
+
             let vertex = face.getVerticesPos()[0];
             let p = vec3.fromValues(source.pos[0], source.pos[1], source.pos[2]);
             let objVertex = vec3.fromValues(vertex[0], vertex[1], vertex[2]);
@@ -146,40 +147,37 @@ function addImageSourcesFunctions(scene) {
             let M_inv = mat3.create();
             let normalMatrix = mat3.create();
 
-            let test = vec3.create();
-
-            mat4.reduce(M, child.accumulated);
+            mat4.toMat3(M, child.accumulated);
             mat3.invert(M_inv, M);
             mat3.transpose(normalMatrix, M_inv);
             vec3.transformMat3(normal, face.getNormal(), normalMatrix);
             vec3.normalize(normal, normal);
 
-            vec3.transformMat4(v, objVertex, child.accumulated);
+            vec3.transformMat4(v, face.getCentroid(), child.accumulated);
             
             vec3.sub(w, v, p);
             projected = vec3.project(w, normal);
             vec3.scale(offset, projected, 2);
             vec3.add(r, p, offset);
 
-            reflections.push({pos: r});
+            scene.reflections.push({
+              pos: r,
+              parent: source.parent,
+              genFace: face,
+              rcoff: source.rcoeff,
+              order: source.order + 1
+            });
           }
         }
       });
     }
 
-    scene.imsources = scene.imsources.concat(reflections);
-    
-    //TODO: Fill the rest of this in.  Be sure to reflect images across faces
-    //in world coordinates, not the faces in the original mesh coordinates
-    //See the "rayIntersectFaces" function above for an example of how to loop
-    //through faces in a mesh
+    scene.imsources.push.apply(scene.imsources, scene.reflections);
 
-    console.log(scene.imsources);
-    return scene.imsources;
-    
+    if(scene.reflections[0].order < order) {
+      scene.computeImageSources(order-1);
+    }
   }   
-
-  scene.accumulateTransforms = accumulateTransforms;
 
   // adding accumulated transforms to all children in scenograph
   function accumulateTransforms(root) {
@@ -209,6 +207,8 @@ function addImageSourcesFunctions(scene) {
       visitChildren(child);
     }
   }
+
+  scene.accumulateTransforms = accumulateTransforms;
   
   //Purpose: Based on the extracted image sources, trace back paths from the
   //receiver to the source, checking to make sure there are no occlusions
