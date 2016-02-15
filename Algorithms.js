@@ -129,7 +129,7 @@ function addImageSourcesFunctions(scene) {
       mat4.identity(I);
 
       // callback child now has additional accumulated transform property
-      accumulateTransforms(scene, I, function(child) {
+      visitChildren(scene, function(parent, child) {
         if('mesh' in child) {
           for (var f = 0; f < child.mesh.faces.length; f++) {
             let face = child.mesh.faces[f];
@@ -145,6 +145,8 @@ function addImageSourcesFunctions(scene) {
             let M = mat3.create();
             let M_inv = mat3.create();
             let normalMatrix = mat3.create();
+
+            let test = vec3.create();
 
             mat4.reduce(M, child.accumulated);
             mat3.invert(M_inv, M);
@@ -177,27 +179,36 @@ function addImageSourcesFunctions(scene) {
     
   }   
 
-  // recursively traverse all children in scenegraph, adding accumulated property
-  function accumulateTransforms(node, transform, callback) {
-    if (node === null || node === undefined) return;
+  scene.accumulateTransforms = accumulateTransforms;
 
-    var accumulated = mat4.create();
+  // adding accumulated transforms to all children in scenograph
+  function accumulateTransforms(root) {
+    visitChildren(root, function accumulate(parent, child) {
+      var accumulated = mat4.create();
 
-    if (node.transform) {
-      mat4.mul(accumulated, transform, node.transform);
-      node.accumulated = accumulated;
-      callback(node);
-    } else {
-      mat4.identity(accumulated);
-    }
+      var I = mat4.create();
+      mat4.identity(I, I);
 
-    if (!node.children) return;
-   
-    for (let i = 0; i < node.children.length; i++) {
-      let child = node.children[i];
-      accumulateTransforms(child, accumulated, callback);
-    }
+      parent.transform = parent.transform || I;
+
+      if (child.transform) {
+        mat4.mul(accumulated, parent.transform, child.transform);
+        child.accumulated = accumulated;
+      }
+    });
   } 
+
+  // recursively traverse all children in scenograph
+  // callback takes parameters (parent, child)
+  function visitChildren(parent, callback) {
+    if (parent === null || !parent.children) return;
+
+    for (let i = 0; i < parent.children.length; i++) {
+      let child = parent.children[i];
+      callback(parent, child);
+      visitChildren(child);
+    }
+  }
   
   //Purpose: Based on the extracted image sources, trace back paths from the
   //receiver to the source, checking to make sure there are no occlusions
@@ -224,8 +235,7 @@ function addImageSourcesFunctions(scene) {
     //and scene.source should be the last element of every array in 
     //scene.paths
   }
-  
-  
+
   //Inputs: Fs: Sampling rate (samples per second)
   scene.computeImpulseResponse = function(Fs) {
     var SVel = 340;//Sound travels at 340 meters/second

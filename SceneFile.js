@@ -395,6 +395,11 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     glcanvas.scene.computeImageSources(order);
     requestAnimFrame(glcanvas.repaint);
   }
+
+  glcanvas.accumulateTransforms = function() {
+    console.log("Accumulating transforms for all children");
+    glcanvas.scene.accumulateTransforms(glcanvas.scene);
+  }
   
   glcanvas.extractPaths = function() {
     console.log("Extracting paths source to receiver");
