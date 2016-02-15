@@ -36,7 +36,6 @@ function rayIntersectPolygon(P0, V, vertices, mvMatrix) {
   //intersections in order of occurrence to figure out which one happened first
 }
 
-
 function addImageSourcesFunctions(scene) {
   //Setup all of the functions that students fill in that operate directly
   //on the scene
@@ -110,7 +109,6 @@ function addImageSourcesFunctions(scene) {
   
   //Inputs: order (int) : The maximum number of bounces to take
   scene.computeImageSources = function(order) {
-
     var l = 0;
 
     order = (isNaN(order)) ? 0 : order;
@@ -168,17 +166,14 @@ function addImageSourcesFunctions(scene) {
                 parent: source.parent,
                 genFace: face,
                 rcoff: source.rcoeff,
-                order: source.order + 1
+                order: l
               });
             }
           }
         });
       }
-      
       l++;
     }
-
-    scene.imsources.push.apply(scene.imsources, scene.reflections);
   }   
 
   // adding accumulated transforms to all children in scenograph
