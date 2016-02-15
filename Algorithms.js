@@ -133,19 +133,33 @@ function addImageSourcesFunctions(scene) {
         if('mesh' in child) {
           for (var f = 0; f < child.mesh.faces.length; f++) {
             let face = child.mesh.faces[f];
+            let vertex = face.getVerticesPos()[0];
+            let p = vec3.fromValues(source.pos[0], source.pos[1], source.pos[2]);
+            let objVertex = vec3.fromValues(vertex[0], vertex[1], vertex[2]);
+            let v = vec3.create();
+            let w = vec3.create();
+            let r = vec3.create();
             let normal = vec3.create();
-            let projected = vec3.create();
+            let projected;
+            let offset = vec3.create();
             let M = mat3.create();
             let M_inv = mat3.create();
             let normalMatrix = mat3.create();
+
             mat4.reduce(M, child.accumulated);
             mat3.invert(M_inv, M);
             mat3.transpose(normalMatrix, M_inv);
-
             vec3.transformMat3(normal, face.getNormal(), normalMatrix);
             vec3.normalize(normal, normal);
-            reflections.push({pos: normal});
-            console.log(normal, face.getNormal());
+
+            vec3.transformMat4(v, objVertex, child.accumulated);
+            
+            vec3.sub(w, v, p);
+            projected = vec3.project(w, normal);
+            vec3.scale(offset, projected, 2);
+            vec3.add(r, p, offset);
+
+            reflections.push({pos: r});
           }
         }
       });
@@ -158,6 +172,7 @@ function addImageSourcesFunctions(scene) {
     //See the "rayIntersectFaces" function above for an example of how to loop
     //through faces in a mesh
 
+    console.log(scene.imsources);
     return scene.imsources;
     
   }   
