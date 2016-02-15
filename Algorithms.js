@@ -111,6 +111,8 @@ function addImageSourcesFunctions(scene) {
   //Inputs: order (int) : The maximum number of bounces to take
   scene.computeImageSources = function(order) {
 
+    var l = 0;
+
     order = (isNaN(order)) ? 0 : order;
 
     scene.source.order = 0;
@@ -118,65 +120,65 @@ function addImageSourcesFunctions(scene) {
     scene.source.parent = null;
     scene.source.genFace = null;
 
-    scene.reflections = (scene.reflections.length > 0) ? scene.reflections : [scene.source];
-    var N = scene.reflections.length;
-    scene.imsources = [];
+    scene.imsources = [scene.source];
 
-    if (order == 0) return;
+    while (l < order) {
 
-    for (var k = 0; k < N; k++) {
-      let source = scene.reflections[k];
+      // let is block scope, var makes it global, which is bad
+      let N = scene.imsources.length;
 
-      // callback child now has additional accumulated transform property
-      visitChildren(scene, function(parent, child) {
-        if('mesh' in child) {
-          for (var f = 0; f < child.mesh.faces.length; f++) {
-            let face = child.mesh.faces[f];
-            if (face == source.genFace) continue;
+      for (var k = 0; k < N; k++) {
+        let source = scene.imsources[k];
 
-            let vertex = face.getVerticesPos()[0];
-            let p = vec3.fromValues(source.pos[0], source.pos[1], source.pos[2]);
-            let objVertex = vec3.fromValues(vertex[0], vertex[1], vertex[2]);
-            let v = vec3.create();
-            let w = vec3.create();
-            let r = vec3.create();
-            let normal = vec3.create();
-            let projected;
-            let offset = vec3.create();
-            let M = mat3.create();
-            let M_inv = mat3.create();
-            let normalMatrix = mat3.create();
+        if (source.order < l - 1) continue;
 
-            mat4.toMat3(M, child.accumulated);
-            mat3.invert(M_inv, M);
-            mat3.transpose(normalMatrix, M_inv);
-            vec3.transformMat3(normal, face.getNormal(), normalMatrix);
-            vec3.normalize(normal, normal);
+        // will just do with each child what the callback specifies
+        // visit children is itself recursive, and finishes when it is totally done
+        visitChildren(scene, function(parent, child) {
+          if('mesh' in child) {
+            for (var f = 0; f < child.mesh.faces.length; f++) {
+              let face = child.mesh.faces[f];
+              if (face == source.genFace) continue;
 
-            vec3.transformMat4(v, face.getCentroid(), child.accumulated);
-            
-            vec3.sub(w, v, p);
-            projected = vec3.project(w, normal);
-            vec3.scale(offset, projected, 2);
-            vec3.add(r, p, offset);
+              let vertex = face.getVerticesPos()[0];
+              let p = vec3.fromValues(source.pos[0], source.pos[1], source.pos[2]);
+              let objVertex = vec3.fromValues(vertex[0], vertex[1], vertex[2]);
+              let v = vec3.create();
+              let w = vec3.create();
+              let r = vec3.create();
+              let normal = vec3.create();
+              let projected;
+              let offset = vec3.create();
+              let M = mat3.create();
 
-            scene.reflections.push({
-              pos: r,
-              parent: source.parent,
-              genFace: face,
-              rcoff: source.rcoeff,
-              order: source.order + 1
-            });
+              // replace this clunky normalMatrix operation
+              mat3.normalFromMat4(M, child.accumulated);
+              vec3.transformMat3(normal, face.getNormal(), M);
+              vec3.normalize(normal, normal);
+
+              vec3.transformMat4(v, face.getCentroid(), child.accumulated);
+              
+              vec3.sub(w, v, p);
+              projected = vec3.project(w, normal);
+              vec3.scale(offset, projected, 2);
+              vec3.add(r, p, offset); // reflected point
+
+              scene.imsources.push({
+                pos: r,
+                parent: source.parent,
+                genFace: face,
+                rcoff: source.rcoeff,
+                order: source.order + 1
+              });
+            }
           }
-        }
-      });
+        });
+      }
+      
+      l++;
     }
 
     scene.imsources.push.apply(scene.imsources, scene.reflections);
-
-    if(scene.reflections[0].order < order) {
-      scene.computeImageSources(order-1);
-    }
   }   
 
   // adding accumulated transforms to all children in scenograph
@@ -203,8 +205,8 @@ function addImageSourcesFunctions(scene) {
 
     for (let i = 0; i < parent.children.length; i++) {
       let child = parent.children[i];
-      callback(parent, child);
-      visitChildren(child);
+      callback(parent, child); // do what you will with child and its parent
+      visitChildren(child); // so fancy, so concise, so unreadable, such compact
     }
   }
 
