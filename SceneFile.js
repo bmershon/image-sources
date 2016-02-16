@@ -93,6 +93,9 @@ function setupScene(scene, glcanvas) {
   
   image_sources.extend(scene);
   
+  console.log("Accumulating transforms for all children");
+  scene.accumulateTransforms(scene);
+
   //Now that the scene has loaded, setup the glcanvas
   SceneCanvas(glcanvas, 'GLEAT/DrawingUtils', 800, 600, scene);
   requestAnimFrame(glcanvas.repaint);
@@ -395,12 +398,6 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     glcanvas.scene.imsources = []; // reset ??
     glcanvas.scene.computeImageSources(order);
     requestAnimFrame(glcanvas.repaint);
-  }
-
-  // preprocessing step
-  glcanvas.accumulateTransforms = function() {
-    console.log("Accumulating transforms for all children");
-    glcanvas.scene.accumulateTransforms(glcanvas.scene);
   }
   
   glcanvas.extractPaths = function() {
