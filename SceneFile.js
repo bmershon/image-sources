@@ -91,8 +91,7 @@ function setupScene(scene, glcanvas) {
   scene.paths = [];
   scene.impulseResp = [];//Will hold the discrete impulse response
   
-  //Add algorithm functions to this object
-  addImageSourcesFunctions(scene);
+  image_sources.extend(scene);
   
   //Now that the scene has loaded, setup the glcanvas
   SceneCanvas(glcanvas, 'GLEAT/DrawingUtils', 800, 600, scene);
