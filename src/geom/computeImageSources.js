@@ -1,4 +1,4 @@
-import { default as visitChildren } from "../scene/visitChildren"; 
+import visitChildren from "../scene/visitChildren";
 
 // order (int) : The maximum number of bounces to take
 export default function computeImageSources(order) {
@@ -32,7 +32,6 @@ export default function computeImageSources(order) {
 
             let vertex = face.getVerticesPos()[0];
             let p = vec3.fromValues(source.pos[0], source.pos[1], source.pos[2]);
-            let objVertex = vec3.fromValues(vertex[0], vertex[1], vertex[2]);
             let v = vec3.create();
             let w = vec3.create();
             let r = vec3.create();
@@ -41,13 +40,13 @@ export default function computeImageSources(order) {
             let offset = vec3.create();
             let M = mat3.create();
 
-            // Transform normal with normalMatrix
+            // Transform plane normal with normalMatrix
             mat3.normalFromMat4(M, child.accumulated);
             vec3.transformMat3(normal, face.getNormal(), M);
             vec3.normalize(normal, normal);
             vec3.transformMat4(v, face.getCentroid(), child.accumulated);
             
-            // project onto plane normal
+            // project (v - p) onto plane normal; scale vector by 2 to get image
             vec3.sub(w, v, p);
             projected = vec3.project(w, normal);
             vec3.scale(offset, projected, 2);

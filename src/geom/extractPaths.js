@@ -12,6 +12,8 @@
   //as an element "rcoeff" which stores the reflection coefficient at that
   //part of the path, which will be used to compute decays in "computeInpulseResponse()"
   //Don't forget the direct path from source to receiver!
+import rayIntersectFaces.js from "./rayIntersectFaces";
+
 export default function extractPaths() {
   var scene = this;
   scene.paths = [];

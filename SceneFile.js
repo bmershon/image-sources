@@ -395,7 +395,6 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   
   glcanvas.computeImageSources = function(order) {
     console.log("Computing image sources of order " + order);
-    glcanvas.scene.imsources = []; // reset ??
     glcanvas.scene.computeImageSources(order);
     requestAnimFrame(glcanvas.repaint);
   }
