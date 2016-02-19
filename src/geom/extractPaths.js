@@ -17,6 +17,8 @@ import rayIntersectFaces.js from "./rayIntersectFaces";
 export default function extractPaths() {
   var scene = this;
   scene.paths = [];
+
+  console.log(rayIntersectFaces)
   
   //TODO: Finish this. Extract the rest of the paths by backtracing from
   //the image sources you calculated.  Return an array of arrays in

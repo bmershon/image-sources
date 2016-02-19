@@ -22,7 +22,7 @@ export default function rayIntersectPolygon(P0, V, vertices) {
 
   // calculate area of n-choose-2 triangles
   for (let i = 0; i < vertices.length - 1; i++) {
-    sum += getPolygonArea([vertices[i], vertices[i+1], intersection]);
+    sum += Math.abs(getPolygonArea([vertices[i], vertices[i+1], intersection]));
   }
 
   return (inDelta(sum, area, 1e-4)) ? {t: t, P: intersection} : null;  
