@@ -4,7 +4,7 @@ import visitChildren from "../scene/visitChildren";
 export default function computeImageSources(order) {
   
   var scene = this,
-      l = 0;
+      l = 1;
 
   order = (isNaN(order)) ? 0 : order;
 
@@ -15,7 +15,7 @@ export default function computeImageSources(order) {
 
   scene.imsources = [scene.source];
 
-  while (l < order) {
+  while (l <= order) {
 
     let N = scene.imsources.length;
 

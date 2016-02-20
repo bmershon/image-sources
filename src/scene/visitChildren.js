@@ -8,5 +8,6 @@ export default function visitChildren(node, callback) {
     callback(node, child);
     visitChildren(child, callback);
   }
+  
   return;
 }

@@ -7,10 +7,10 @@
 import visitChildren from "../scene/visitChildren";
 import rayIntersectPolygon from "./rayIntersectPolygon";
 
-export default function rayIntersectFaces(P0, V, node, excludeFace) {
+export default function rayIntersectFaces(r, v, node, excludeFace) {
   var scene = this;
   var tmin = Infinity;//The parameter along the ray of the nearest intersection
-  var PMin = null;//The point of intersection corresponding to the nearest interesection
+  var qMin = null;//The point of intersection corresponding to the nearest interesection
   var faceMin = null;//The face object corresponding to the nearest intersection
 
   visitChildren(scene, function(parent, child) {
@@ -21,13 +21,13 @@ export default function rayIntersectFaces(P0, V, node, excludeFace) {
         if (face == excludeFace) continue;
 
         let worldVertices = face.getVerticesPos().map(function (d) {
-          let transformed = mat4.create();
+          let transformed = vec3.create();
           vec3.transformMat4(transformed, d, child.accumulated);
           return transformed;
         });
 
         //Intersect the ray with this polygon
-        var res = rayIntersectPolygon(P0, V, worldVertices);
+        var res = rayIntersectPolygon(r, v, worldVertices);
         if (!(res === null) && (res.t < tmin)) {
           tmin = res.t;
           PMin = res.P;
@@ -37,5 +37,5 @@ export default function rayIntersectFaces(P0, V, node, excludeFace) {
     }
   });
 
-  return (PMin === null) ? null : {tmin:tmin, PMin:PMin, faceMin:faceMin};
+  return (qMin === null) ? null : {tmin:tmin, PMin:qMin, faceMin:faceMin};
 }

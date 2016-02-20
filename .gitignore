@@ -1,4 +1,5 @@
 .DS_Store
+.Algorithms.js
 image-sources.js
 node_modules/
 build/

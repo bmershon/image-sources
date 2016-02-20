@@ -1,29 +1,30 @@
 import inDelta from "../math/inDelta";
 
 // vertices in world coordinates
-export default function rayIntersectPolygon(P0, V, vertices) {
+export default function rayIntersectPolygon(r, v, vertices) {
   var t,
-      normal,
+      n,
       area,
       sum = 0,
-      w = vec3.create(),
-      offset = vec3.create(),
-      intersection = vec3.create(),
-      vn = vec3.create();
+      p = vertices[0], // point on plane
+      d = vec3.create(),
+      p_r = vec3.create(),
+      q = vec3.create();
 
-  normal = getFaceNormal(vertices);
-  vec3.sub(offset, P0, vertices[0]);
+  n = getFaceNormal(vertices);
+  vec3.normalize(n, n);
+  vec3.sub(p_r, p, r);
   
-  t = -vec.dot(offset, normal)/vec3.dot(V, normal); 
-  vec3.scale(offset, V, t);
-  vec3.add(intersection, P0, offset);
+  t = vec3.dot(p_r, n)/vec3.dot(v, n); 
+  vec3.scale(d, v, t);
+  vec3.add(q, r, d);
 
   area = getPolygonArea(vertices);
 
-  // calculate area of "partitions"
+  // calculate area of "partitions"; assumed convex polygon
   for (let i = 0; i < vertices.length - 1; i++) {
-    sum += Math.abs(getPolygonArea([vertices[i], vertices[i+1], intersection]));
+    sum += Math.abs(getPolygonArea([vertices[i], vertices[i+1], q]));
   }
 
-  return (inDelta(sum, area, 1e-4)) ? {t: t, P: intersection} : null;  
+  return (inDelta(sum, area, 1e-4) || true) ? {t: t, P: q} : null;  
 }
