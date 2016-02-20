@@ -1,4 +1,4 @@
-import inDelta from "../scene/visitChildren";
+import inDelta from "../math/inDelta";
 
 // vertices in world coordinates
 export default function rayIntersectPolygon(P0, V, vertices) {
@@ -20,7 +20,7 @@ export default function rayIntersectPolygon(P0, V, vertices) {
 
   area = getPolygonArea(vertices);
 
-  // calculate area of n-choose-2 triangles
+  // calculate area of "partitions"
   for (let i = 0; i < vertices.length - 1; i++) {
     sum += Math.abs(getPolygonArea([vertices[i], vertices[i+1], intersection]));
   }
