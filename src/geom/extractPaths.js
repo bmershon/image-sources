@@ -16,25 +16,15 @@ import rayIntersectFaces from "./rayIntersectFaces";
 
 export default function extractPaths() {
   var scene = this;
+
   scene.paths = [];
 
-  var scene = this;
-  scene.paths = [];
+  var r = vec3.fromValues(0, .2, 0);
+  var v = vec3.fromValues(3, 1.5, 0);
 
-  var r = vec3.fromValues(0, 0, 0);
-  var v = vec3.fromValues(3, 2, 1);
+  var soln = rayIntersectFaces(r, v, scene, null);
 
-  var child = scene.children[1];
-
-  let worldVertices = child.mesh.faces[0].getVerticesPos().map(function (d) {
-    let transformed = vec3.create();
-    vec3.transformMat4(transformed, d, child.accumulated);
-    return transformed;
-  });
-
-  var data = rayIntersectPolygon(r, v, worldVertices);
-
-  scene.paths.push([{pos: r}, {pos: data.P}]);
+  if (soln) scene.paths.push([{pos: r}, {pos: soln.p}]);
   
   //TODO: Finish this. Extract the rest of the paths by backtracing from
   //the image sources you calculated.  Return an array of arrays in

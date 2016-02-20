@@ -26,7 +26,7 @@ export default function computeImageSources(order) {
 
       visitChildren(scene, function(parent, child) {
         if('mesh' in child) {
-          for (var f = 0; f < child.mesh.faces.length; f++) {
+          for (let f = 0; f < child.mesh.faces.length; f++) {
             let face = child.mesh.faces[f];
             if (face == source.genFace) continue;
 

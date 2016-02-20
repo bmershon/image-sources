@@ -23,6 +23,8 @@ export default function rayIntersectPolygon(r, v, polygon) {
   vec3.scale(d, v, t);
   vec3.add(q, r, d);
 
+  if (t < 0) return null;d
+
   area = getPolygonArea(polygon);
 
   // sum partitions
@@ -33,5 +35,5 @@ export default function rayIntersectPolygon(r, v, polygon) {
   }
 
   // verify point is inside convex polygon
-  return (inDelta(sum, area, 1e-4)) ? {t: t, P: q} : null;  
+  return (inDelta(sum, area, 1e-4)) ? {t: t, p: q} : null;  
 }
