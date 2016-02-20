@@ -12,12 +12,29 @@
   //as an element "rcoeff" which stores the reflection coefficient at that
   //part of the path, which will be used to compute decays in "computeInpulseResponse()"
   //Don't forget the direct path from source to receiver!
-import rayIntersectPolygon from "./rayIntersectPolygon";
 import rayIntersectFaces from "./rayIntersectFaces";
 
 export default function extractPaths() {
   var scene = this;
   scene.paths = [];
+
+  var scene = this;
+  scene.paths = [];
+
+  var r = vec3.fromValues(0, 0, 0);
+  var v = vec3.fromValues(3, 2, 1);
+
+  var child = scene.children[1];
+
+  let worldVertices = child.mesh.faces[0].getVerticesPos().map(function (d) {
+    let transformed = vec3.create();
+    vec3.transformMat4(transformed, d, child.accumulated);
+    return transformed;
+  });
+
+  var data = rayIntersectPolygon(r, v, worldVertices);
+
+  scene.paths.push([{pos: r}, {pos: data.P}]);
   
   //TODO: Finish this. Extract the rest of the paths by backtracing from
   //the image sources you calculated.  Return an array of arrays in
