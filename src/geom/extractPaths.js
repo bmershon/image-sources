@@ -10,7 +10,9 @@ export default function extractPaths() {
   scene.paths = [];
 
   // add line-of-site path
-  if (!scene.obscured(tx, rx)) scene.paths.push([s(tx), s(rx)]);
+  if (!scene.obscured(tx, rx)){
+    scene.paths.push([scene.source, scene.receiver]);
+  }
 
   for (let i = 0; i < n; i++) {
     let path = [scene.receiver],
@@ -30,10 +32,12 @@ export default function extractPaths() {
         p = s(soln.p, target.rcoeff);
         exclusion = target.genFace;
         path.push(p);
+        target.hit = true;
+
       } else if (soln) {
         // there is an obstruction
         break;
-      } else if (target.order == 0){ // no obstruction, back at source
+      } else if (target.order === 0){ // no obstruction, back at source
         path.push(scene.source);
         scene.paths.push(path); 
       }
