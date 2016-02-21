@@ -29,7 +29,7 @@ export default function extractPaths() {
       soln = rayIntersectFaces(p.pos, v, scene, exclusion);
       
       if (soln && soln.face == target.genFace) {
-        p = s(soln.p, target.rcoeff);
+        p = {pos: soln.p, rcoeff: target.rcoeff};
         exclusion = target.genFace;
         path.push(p);
         target.hit = true;
@@ -45,15 +45,4 @@ export default function extractPaths() {
       target = target.parent; // image source that generated this target
     }
   }
-}
-
-// packaging path objects
-function s(pos, rcoeff) {
-  pos = pos || vec3.create();
-  rcoeff = rcoeff || 0.0;
-  
-  return {
-      pos: vec3.clone(pos),
-      rcoeff: rcoeff
-  };
 }
