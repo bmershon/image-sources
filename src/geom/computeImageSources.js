@@ -54,7 +54,7 @@ export default function computeImageSources(order) {
 
             scene.imsources.push({
               pos: r,
-              parent: source.parent,
+              parent: source,
               genFace: face,
               rcoff: source.rcoeff,
               order: l
