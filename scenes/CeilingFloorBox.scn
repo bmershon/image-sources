@@ -1,6 +1,6 @@
 {
     "name":"ceilingfloorbox",
-    "receiver":[5, 1.5, 0],
+    "receiver":[-3, 3, 0],
     "source":[-5, 1.5, 0], 
     "children":[
         {

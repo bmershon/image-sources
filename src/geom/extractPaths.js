@@ -27,16 +27,14 @@ export default function extractPaths() {
     while (target !== null) {
       vec3.sub(v, target.pos, p.pos); // aim at target
       soln = rayIntersectFaces(p.pos, v, scene, exclusion); // find intersection
-      
-      if (soln && soln.face == target.genFace) {
+        
+      if (target.order === 0 && !scene.obscured(p.pos, target.pos)) {
+        path.push(scene.source);
+        scene.paths.push(path); // complete path
+      } else if (soln && soln.face == target.genFace) {
         p = {pos: soln.p, rcoeff: target.rcoeff}; // face intersection
         exclusion = target.genFace;
         path.push(p);
-      } else if (soln) {
-        break; // there is an obstruction
-      } else if (target.order === 0){ // no obstruction, back at source
-        path.push(scene.source);
-        scene.paths.push(path); // complete path
       }
 
       target = target.parent; // image source that generated this target

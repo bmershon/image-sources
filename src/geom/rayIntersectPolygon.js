@@ -1,7 +1,7 @@
 import inDelta from "../math/inDelta";
 
 // vertices in world coordinates
-export default function rayIntersectPolygon(r, v, polygon) {
+export default function rayIntersectPolygon(r, u, polygon) {
   var n = polygon.length,
       i = -1,
       a,
@@ -12,9 +12,12 @@ export default function rayIntersectPolygon(r, v, polygon) {
       sum = 0,
       p = b,
       d = vec3.create(),
+      v = vec3.create(),
       r2p = vec3.create(),
       q = vec3.create();
 
+  v = vec3.clone(u);
+  vec3.normalize(v, v);
   norm = getFaceNormal(polygon);
   vec3.normalize(norm, norm);
   vec3.sub(r2p, p, r);
