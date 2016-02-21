@@ -1,36 +1,44 @@
-//Purpose: Based on the extracted image sources, trace back paths from the
-  //receiver to the source, checking to make sure there are no occlusions
-  //along the way.  Remember, you're always starting by tracing a path from
-  //the receiver to the image, and then from the intersection point with
-  //that image's corresponding face to the image's parent, and so on
-  //all the way until you get back to the original source.
-  
-  //Fill in the array scene.paths, where each element of the array is itself
-  //an array of objects describing vertices along the path, starting
-  //with the receiver and ending with the source.  Each object in each path
-  //array should contain a field "pos" which describes the position, as well
-  //as an element "rcoeff" which stores the reflection coefficient at that
-  //part of the path, which will be used to compute decays in "computeInpulseResponse()"
-  //Don't forget the direct path from source to receiver!
 import rayIntersectFaces from "./rayIntersectFaces";
+import obscured from "./obscured";
 
 export default function extractPaths() {
-  var scene = this;
+  var scene = this,
+      n = scene.imsources.length,
+      tx = scene.source.pos,
+      rx = scene.receiver.pos;
 
-  scene.paths = [];
+  if (!scene.obscured(tx, rx)) scene.paths.push([s(tx), s(rx)]);
 
-  var r = vec3.fromValues(0, .2, 0);
-  var v = vec3.fromValues(3, 1.5, 0);
+  for (let i = 0; i < n; i++) {
+    let source = scene.imsources[i];
+  }
+}
 
-  var soln = rayIntersectFaces(r, v, scene, null);
+// function build(path) {
+//   let n = path.length,
+//       source = path[n - 1];
 
-  if (soln) scene.paths.push([{pos: r}, {pos: soln.p}]);
+//   for (let i = 0; i < imsources.length; i++) {
+//     let im = imsources[i];
+//     let v = vec3.create();
+//     vec3.sub(v, im, rx)
+//     let soln = rayIntersectFaces(source, v, scene, exclusion);
+//     if (soln && soln.face == source.getFace) {
+//       path.push[s(soln.p, im.rcoeff)];
+//     }
+//   }
+
+// }
+
+// returns true if direct line-of-site is obscured between a and b
+
+
+function s(pos, rcoeff) {
+  pos = pos || vec3.create();
+  rcoeff = rcoeff || 0.0;
   
-  //TODO: Finish this. Extract the rest of the paths by backtracing from
-  //the image sources you calculated.  Return an array of arrays in
-  //scene.paths.  Recursion is highly recommended
-  //Each path should start at the receiver and end at the source
-  //(or vice versa), so scene.receiver should be the first element 
-  //and scene.source should be the last element of every array in 
-  //scene.paths
+  return {
+      pos: vec3.clone(pos),
+      rcoeff: rcoeff
+  };
 }
