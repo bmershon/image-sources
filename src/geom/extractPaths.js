@@ -35,8 +35,7 @@ export default function extractPaths() {
         target.hit = true;
 
       } else if (soln) {
-        // there is an obstruction
-        break;
+        break; // there is an obstruction
       } else if (target.order === 0){ // no obstruction, back at source
         path.push(scene.source);
         scene.paths.push(path); 
