@@ -17,9 +17,9 @@ export default function computeImageSources(order) {
 
   while (l <= order) {
 
-    let N = scene.imsources.length;
+    let n = scene.imsources.length;
 
-    for (var k = 0; k < N; k++) {
+    for (var k = 0; k < n; k++) {
       let source = scene.imsources[k];
 
       if (source.order < l - 1) continue;

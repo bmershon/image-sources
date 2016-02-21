@@ -2,33 +2,33 @@ import inDelta from "../math/inDelta";
 
 // vertices in world coordinates
 export default function rayIntersectPolygon(r, v, polygon) {
-  var N = polygon.length,
+  var n = polygon.length,
       i = -1,
       a,
-      b = polygon[N - 1],
+      b = polygon[n - 1],
       t,
-      n,
+      norm,
       area,
       sum = 0,
       p = b,
       d = vec3.create(),
-      p_r = vec3.create(),
+      r2p = vec3.create(),
       q = vec3.create();
 
-  n = getFaceNormal(polygon);
-  vec3.normalize(n, n);
-  vec3.sub(p_r, p, r);
+  norm = getFaceNormal(polygon);
+  vec3.normalize(norm, norm);
+  vec3.sub(r2p, p, r);
   
-  t = vec3.dot(p_r, n)/vec3.dot(v, n); 
+  t = vec3.dot(r2p, norm) / vec3.dot(v, norm); 
   vec3.scale(d, v, t);
   vec3.add(q, r, d);
 
-  if (t < 0) return null;d
+  if (t < 0) return null;
 
   area = getPolygonArea(polygon);
 
   // sum partitions
-  while (++i < N) {
+  while (++i < n) {
     a = b;
     b = polygon[i];
     sum += getPolygonArea([a, b, q]);
