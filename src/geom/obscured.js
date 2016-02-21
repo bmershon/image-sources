@@ -7,5 +7,5 @@ export default function obscured(a, b) {
 
   vec3.sub(d, a, b);
 
-  return !(rayIntersectFaces(b, d, scene, null) === null); 
+  return rayIntersectFaces(b, d, scene, null) !== null; 
 }
