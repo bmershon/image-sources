@@ -1,10 +1,3 @@
-/**
- *
- * Original implementation for image-sources assignment by Chris Tralie
- *
- * Modifed by Brooks Mershon
- */
-
 import visitChildren from "../scene/visitChildren";
 import rayIntersectPolygon from "./rayIntersectPolygon";
 
