@@ -1,7 +1,7 @@
 import rayIntersectFaces from "./rayIntersectFaces";
 import inDelta from "./math/inDelta";
   
-// returns true line-of-site exists between a, b
+// returns false line-of-site exists between a, b
 export default function obscured(a, b) {
   var scene = this,
       d = vec3.create(),
