@@ -1,12 +1,18 @@
 # Image Sources (Math 290)
 
-This assignment was completed as part of Chris Tralie's *excellent* 3D geometry class (CS/Math 290) taught at Duke University in Spring 2016.
+This assignment was completed as part of Chris Tralie's *excellent* 3D geometry class (CS/Math 290) taught at Duke University during Spring 2016.
 
-The assignment is concerned with introducing undergraduates to acoustic simulations. 3D transformations are used to simulate "echos" in simple scene graphs using wsebGL. The assignment builds on top of Tralie's 3D geometry framework designed for teaching by adding several algorithms for computing image sources and for a sound source and generating the paths from the source to the receiver.
+The assignment is concerned with introducing undergraduates to acoustic simulations. 3D transformations are used to simulate "echos" in simple scene graphs using webGL. The assignment builds on top of Tralie's *in progress* 3D geometry framework, which is primarily designed for teaching students about geometry operations on meshes. 
 
 The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/COMPSCI290/Assignments/Group1_ImageSources/spec.html).
 
+*Order-2 reflections in a simple scene graph*
 
+![order-2 reflections](images/boxes-order-2.png)
+
+*Order-3 reflecitons in the same scene graph*
+
+![order-3 reflections](images/boxes-order-3.png)
 
 # Quickstart
 
@@ -31,28 +37,29 @@ In the root directory, install all required dependencies as specified in *packag
 npm install
 ```
 
-To run all tests and build the *image_sources.js* from source*:
+To run all tests and build the *main/image_sources.js* file from source*:
 
 ```
 npm run submit
 ```
 
-This runs a script that looks at *index.js* and follows all the import and export statements found in the src folder to build a script with one exported global variable: `image_sources.js*.
+This commandruns a script that looks at *index.js* and follows all the import and export statements found in the src folder to build a script with one exported global variable: `image_sources.js*. Checkout *package.json* to see the scripts that have been defined.
 
 *This assignment requires not fair amount of boilerplate code for the main visualization, but also at least one substantial library created by Chris Tralie that has not been converted to any module format. Thus, we run into the problem of multiple module formats and the need to use global variables to get by. Using Rollup to build the image-sources functionality into a single global variable is but one step towards simplifying this assignment.*
 
-# Note to instructor
+# Assignment Tasks
 
-The following tasks have been implemented correctly in *src/* to best of my knowledge:
+The following tasks have been implemented in *src/*:
 
-*Minimal modifications of boiler-plate code in main/ have been made.*
+Minimal modifications of Tralie's provided code code in *main/* have been made.
 
-- [X] Implement recursive helper methods for traversing children and managing accumulated transforms
 - [X] Generage image sources through reflections of a specified order
 - [X] Implement rayIntersectPolygon and rayIntersect Faces using existing `visitChildren` method
 - [X] Gernate paths from source to receiver
 - [X] Generate an impulse response based on the order-n refleciton paths that have been generated
-- [ ] Support transmission through surfaces
+- [ ] Generate city-scapes (automatically) to test large scale scenes. *Units are in meters.*
+- [ ] Implement transmission through surfaces
 - [ ] Support Binaural simulation
-- [ ] Support bounding box tests to speedup culling of faces during ray tracing step
-- [ ] Attempt to build a "whisper chamber" with an approximation of an ellipsoid
+- [ ] Support bounding box tests to speed up culling of faces during ray tracing step
+- [ ] Attempt to build a "whisper chamber"
+- [ ] Test some dank tunes in a "club" and simulate transmission of lower frequencies to the "bathroom"
