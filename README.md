@@ -43,15 +43,13 @@ To run all tests and build the *main/image_sources.js* file from source*:
 npm run submit
 ```
 
-This commandruns a script that looks at *index.js* and follows all the import and export statements found in the src folder to build a script with one exported global variable: `image_sources.js*. Checkout *package.json* to see the scripts that have been defined.
+This command runs a script that looks at *index.js* and follows all the `import` and `export` statements found in the *src* directory to build a script with one exported global variable: `image_sources.js*. Checkout *package.json* to see the scripts that have been defined.
 
-*This assignment requires not fair amount of boilerplate code for the main visualization, but also at least one substantial library created by Chris Tralie that has not been converted to any module format. Thus, we run into the problem of multiple module formats and the need to use global variables to get by. Using Rollup to build the image-sources functionality into a single global variable is but one step towards simplifying this assignment.*
+*Using [Rollup](https://github.com/rollup/rollup) to build the image-sources functionality into a single global variable is an attempt to make the student's work in this assignment modular. One significant advantage of doing so is that dependencies and coupling within the student's implementation are made more explicit and easier to follow.*
 
 # Assignment Tasks
 
-The following tasks have been implemented in *src/*:
-
-Minimal modifications of Tralie's provided code code in *main/* have been made.
+The following tasks have been implemented in the *src* directory:
 
 - [X] Generage image sources through reflections of a specified order
 - [X] Implement rayIntersectPolygon and rayIntersect Faces using existing `visitChildren` method
