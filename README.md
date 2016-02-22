@@ -78,4 +78,3 @@ The following tasks have been implemented in the *src* directory:
 - The impulse responses are currently placed in a single nearest bin without any type of interpolation.
 - Added "p" field to *.scn* files; the value is used in simulating radial energy spreading. Lower values result in less attenuation.
 - "Playing" the impulse response by clicking the button in the GUI results in an error.
-- The Plotly library is awkward. The graphs could be replaced by D3 graphs.
