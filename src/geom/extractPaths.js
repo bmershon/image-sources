@@ -42,4 +42,5 @@ export default function extractPaths() {
       target = target.parent; // image source that generated this target
     }
   }
+  return this;
 }
