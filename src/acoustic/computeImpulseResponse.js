@@ -1,11 +1,14 @@
-//Inputs: Fs: Sampling rate (samples per second)
-export default function computeImpulseResponse(Fs) {
+// rate - sampling rate (samples per second)
+export default function computeImpulseResponse(rate) {
   var scene = this,
       n = scene.paths.length,
       p = scene.p,
-      times = [];
+      N,
+      index = [],
+      response = [],
+      time = [];
   
-  const s = 340; //Sound travels at 340 meters/second
+  const s = 340.0; //Sound travels at 340 meters/second
 
   for (let i = 0; i < n; i++)  {
     let path = scene.paths[i],
@@ -24,20 +27,27 @@ export default function computeImpulseResponse(Fs) {
       total += d;
       b = a;
     }
-    times.push(total/s);
+    response.push(f);
+    time.push(total/s);
   }
 
-  scene.impulseResp = times.map(function(t) {
-    return 
+  index = time.map(function(t) {
+    return Math.floor(t * rate);
   });
 
-  //TODO: Finish this.  Be sure to scale each bounce by 1/(1+r^p), 
-  //where r is the length of the line segment of that bounce in meters
-  //and p is some integer less than 1 (make it smaller if you want the 
-  //paths to attenuate less and to be more echo-y as they propagate)
-  //Also be sure to scale by the reflection coefficient of each material
-  //bounce (you should have stored this in extractPaths() if you followed
-  //those directions).  Use some form of interpolation to spread an impulse
-  //which doesn't fall directly in a bin to nearby bins
-  //Save the result into the array scene.impulseResp[]
+  console.debug(index);
+  console.debug(response);
+
+  N = index.length;
+
+  scene.impulseResp = new Float32Array(index[N - 1] + 1);
+
+  for (let i = 0; i < N; i++) {
+    scene.impulseResp[index[i]] = response[i];
+  }
+
+  console.debug(scene.impulseResp);
+
+
+
 }
