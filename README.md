@@ -65,14 +65,17 @@ The following tasks have been implemented in the *src* directory:
 - [X] Implement rayIntersectPolygon and rayIntersect Faces using existing `visitChildren` method
 - [X] Gernate paths from source to receiver for all order-n reflections
 - [X] Generate an impulse response based on the order-n reflection paths that have been generated
+- [ ] *Use Gaussian interpolation to bin impulse responses.*
 - [ ] Generate cityscapes (automatically) to test large scale scenes (*Units are in meters*)
-- [ ] Implement transmission through surfaces
-- [ ] Support Binaural simulation
+- [ ] **Implement transmission through surfaces**
+- [ ] **Support Binaural simulation**
 - [ ] Support bounding box tests to speed up culling of faces during ray tracing step
 - [ ] Attempt to build a "whisper chamber"
 - [ ] Test some dank tunes in a "club" and simulate transmission of lower frequencies to the "bathroom"
 
 # Notes
 
+- The impulse responses are currently placed in a single nearest bin without any type of interpolation.
 - Added "p" field to *.scn* files; the value is used in simulating radial energy spreading. Lower values result in less attenuation.
-- "Playing" the results in an error.
+- "Playing" the impulse response by clicking the button in the GUI results in an error.
+- The Plotly library is awkward. The graphs could be replaced by D3 graphs.
