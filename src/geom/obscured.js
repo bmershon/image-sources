@@ -1,5 +1,5 @@
 import rayIntersectFaces from "./rayIntersectFaces";
-import inDelta from "./math/inDelta";
+import inDelta from "../math/inDelta";
   
 // returns false if line-of-site exists between a, b
 export default function obscured(a, b) {

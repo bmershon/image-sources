@@ -9,7 +9,7 @@ export default function(scene) {
   scene.computeImageSources = computeImageSources.bind(scene);
   scene.extractPaths = extractPaths.bind(scene);
   scene.obscured = obscured.bind(scene);
-
-  scene.computeImpulseResponse = computeImpulseResponse;
+  scene.computeImpulseResponse = computeImpulseResponse.bind(scene);
+  
   scene.accumulateTransforms = accumulateTransforms;
 }
