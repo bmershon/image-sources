@@ -56,7 +56,7 @@ export default function computeImageSources(order) {
               pos: r,
               parent: source,
               genFace: face,
-              rcoff: source.rcoeff,
+              rcoeff: child.rcoeff,
               order: l
             });
           }
@@ -65,4 +65,5 @@ export default function computeImageSources(order) {
     }
     l++;
   }
+  return this;
 }
