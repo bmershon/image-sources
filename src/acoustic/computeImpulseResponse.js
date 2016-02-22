@@ -2,7 +2,7 @@
 export default function computeImpulseResponse(rate) {
   var scene = this,
       n = scene.paths.length,
-      p = scene.p,
+      p = scene.p || 1e-6,
       N,
       index = [],
       response = [],
@@ -13,7 +13,7 @@ export default function computeImpulseResponse(rate) {
   for (let i = 0; i < n; i++)  {
     let path = scene.paths[i],
         m = path.length,
-        f = 1.0,
+        magnitude = 1.0,
         total = 0.0,
         a, b = path[m - 1];
 
@@ -23,11 +23,11 @@ export default function computeImpulseResponse(rate) {
 
       a = path[k];
       d = vec3.distance(a.pos, b.pos);
-      f *= a.rcoeff * 1 / (1 + d^p);
+      magnitude *= a.rcoeff * 1.0 / Math.pow(1.0 + d, p);
       total += d;
       b = a;
     }
-    response.push(f);
+    response.push(magnitude);
     time.push(total/s);
   }
 
@@ -35,19 +35,13 @@ export default function computeImpulseResponse(rate) {
     return Math.floor(t * rate);
   });
 
-  console.debug(index);
-  console.debug(response);
-
   N = index.length;
 
   scene.impulseResp = new Float32Array(index[N - 1] + 1);
 
   for (let i = 0; i < N; i++) {
-    scene.impulseResp[index[i]] = response[i];
+    scene.impulseResp[index[i]] += response[i];
   }
 
-  console.debug(scene.impulseResp);
-
-
-
+  return this;
 }

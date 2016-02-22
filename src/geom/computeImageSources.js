@@ -2,7 +2,6 @@ import visitChildren from "../scene/visitChildren";
 
 // order (int) : The maximum number of bounces to take
 export default function computeImageSources(order) {
-  
   var scene = this,
       l = 1;
 

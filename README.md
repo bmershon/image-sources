@@ -6,6 +6,8 @@ The assignment is concerned with introducing undergraduates to acoustic simulati
 
 The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/COMPSCI290/Assignments/Group1_ImageSources/spec.html).
 
+
+
 # Quickstart
 
 The student's task is primarily concerned with adding functionality to the scenegraph, including the ability to:
@@ -21,7 +23,7 @@ All this extra functionality is exposed as an extension that adds functions to `
 image_sources.extend(scene);
 ```
 
-To build *image_sources.js* (the extension this assignment tasks students with creating), we follow the next few steps.
+To build *main/image_sources.js* (the functionality this assignment tasks students with creating), we follow the next few steps.
 
 In the root directory, install all required dependencies as specified in *package.json* by running:
 
@@ -39,4 +41,18 @@ This runs a script that looks at *index.js* and follows all the import and expor
 
 *This assignment requires not fair amount of boilerplate code for the main visualization, but also at least one substantial library created by Chris Tralie that has not been converted to any module format. Thus, we run into the problem of multiple module formats and the need to use global variables to get by. Using Rollup to build the image-sources functionality into a single global variable is but one step towards simplifying this assignment.*
 
-# Note
+# Note to instructor
+
+The following tasks have been implemented correctly in *src/* to best of my knowledge:
+
+*Minimal modifications of boiler-plate code in main/ have been made.*
+
+- [X] Implement recursive helper methods for traversing children and managing accumulated transforms
+- [X] Generage image sources through reflections of a specified order
+- [X] Implement rayIntersectPolygon and rayIntersect Faces using existing `visitChildren` method
+- [X] Gernate paths from source to receiver
+- [X] Generate an impulse response based on the order-n refleciton paths that have been generated
+- [ ] Support transmission through surfaces
+- [ ] Support Binaural simulation
+- [ ] Support bounding box tests to speedup culling of faces during ray tracing step
+- [ ] Attempt to build a "whisper chamber" with an approximation of an ellipsoid

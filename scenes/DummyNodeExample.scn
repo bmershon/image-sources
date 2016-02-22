@@ -2,7 +2,7 @@
     "name":"testscene",
     "receiver":[5, 1.5, 0],
     "source":[-5, 1.5, 0], 
-    "p": 0.03,
+    "p": 0.5,
     "children":[
         { 
         "transform":[1, 0, 0, 0,

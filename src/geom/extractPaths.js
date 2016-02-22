@@ -9,11 +9,7 @@ export default function extractPaths() {
 
   scene.paths = [];
 
-  // add line-of-site path
-  if (!scene.obscured(tx, rx)){
-    scene.paths.push([scene.source, scene.receiver]);
-  }
-
+  // attempt path starting with receiver and an image source 
   for (let i = 0; i < n; i++) {
     let path = [scene.receiver],
         target = scene.imsources[i], // next image source
@@ -22,19 +18,19 @@ export default function extractPaths() {
         v = vec3.create(),
         soln;
 
-    if (!target.parent) continue; // ignore source as a start
-
+    // backtrack reflected image sources while adding face intersections 
     while (target !== null) {
       vec3.sub(v, target.pos, p.pos); // aim at target
       soln = rayIntersectFaces(p.pos, v, scene, exclusion); // find intersection
-        
-      if (target.order === 0 && !scene.obscured(p.pos, target.pos)) {
+      
+      if (target.order == 0 && !scene.obscured(p.pos, target.pos, exclusion)) {
         path.push(scene.source);
         scene.paths.push(path); // complete path
       } else if (soln && soln.face == target.genFace) {
         p = {pos: soln.p, rcoeff: target.rcoeff}; // face intersection
         exclusion = target.genFace;
         path.push(p);
+        console.debug(path, target);
       } else {
         break; // abort path
       }
