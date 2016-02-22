@@ -5,12 +5,12 @@
     "p": 0.5,
     "children":[
         {
-            "mesh":"meshes/box.off",
+            "mesh":"meshes/sphere.off",
             "color":[0.8, 0.8, 0.8],
             "rcoeff":0.5,
-            "transform":[10, 0, 0, 0,
-                         0, 10, 0, 0,
-                         0, 0, 10, 0,
+            "transform":[20, 0, 0, 0,
+                         0, 20, 0, 0,
+                         0, 0, 20, 0,
                          0, 0, 0, 1]     
         }
     ]

@@ -6,13 +6,23 @@ The assignment is concerned with introducing undergraduates to acoustic simulati
 
 The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/COMPSCI290/Assignments/Group1_ImageSources/spec.html).
 
-*Order-2 reflections in a simple scene graph*
+*Second-order reflections in a simple scene graph*
 
-![order-2 reflections](images/boxes-order-2.png)
+![Second-order reflections](images/boxes-order-2.png)
 
-*Order-3 reflecitons in the same scene graph*
+*Third-order reflections in the same scene graph*
 
-![order-3 reflections](images/boxes-order-3.png)
+![Third-order reflections](images/boxes-order-3.png)
+
+*First Order image sources generated from the sphere's mesh*
+
+![image sources genenerated recursively from meshes in the scene](images/sphere-images.png)
+
+
+*First Order reflections with source and receiver inside a spherical mesh.*
+
+![First-order reflections with high polygon count](images/sphere-order-1.png)
+
 
 # Quickstart
 
@@ -43,7 +53,7 @@ To run all tests and build the *main/image_sources.js* file from source*:
 npm run submit
 ```
 
-This command runs a script that looks at *index.js* and follows all the `import` and `export` statements found in the *src* directory to build a script with one exported global variable: `image_sources.js*. Checkout *package.json* to see the scripts that have been defined.
+This command runs a script that looks at *index.js* and follows all the `import` and `export` statements found in the *src* directory to build a script with one exported global variable: `image_sources`. Checkout *package.json* to see the scripts that have been defined.
 
 *Using [Rollup](https://github.com/rollup/rollup) to build the image-sources functionality into a single global variable is an attempt to make the student's work in this assignment modular. One significant advantage of doing so is that dependencies and coupling within the student's implementation are made more explicit and easier to follow.*
 
@@ -53,11 +63,16 @@ The following tasks have been implemented in the *src* directory:
 
 - [X] Generage image sources through reflections of a specified order
 - [X] Implement rayIntersectPolygon and rayIntersect Faces using existing `visitChildren` method
-- [X] Gernate paths from source to receiver
-- [X] Generate an impulse response based on the order-n refleciton paths that have been generated
-- [ ] Generate city-scapes (automatically) to test large scale scenes. *Units are in meters.*
+- [X] Gernate paths from source to receiver for all order-n reflections
+- [X] Generate an impulse response based on the order-n reflection paths that have been generated
+- [ ] Generate cityscapes (automatically) to test large scale scenes (*Units are in meters*)
 - [ ] Implement transmission through surfaces
 - [ ] Support Binaural simulation
 - [ ] Support bounding box tests to speed up culling of faces during ray tracing step
 - [ ] Attempt to build a "whisper chamber"
 - [ ] Test some dank tunes in a "club" and simulate transmission of lower frequencies to the "bathroom"
+
+# Notes
+
+- Added "p" field to *.scn* files; the value is used in simulating radial energy spreading. Lower values result in less attenuation.
+- "Playing" the results in an error.
