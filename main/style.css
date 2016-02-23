@@ -1,0 +1,13 @@
+body {
+  background-color: #f3f3f3;
+}
+
+.controls {
+  width: 200px;
+  height: auto;
+  float: right;
+}
+
+#GLCanvas1 {
+  border: 2px solid #000;
+}

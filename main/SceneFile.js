@@ -96,7 +96,7 @@ function setupScene(scene, glcanvas) {
   scene.accumulateTransforms(scene);
 
   //Now that the scene has loaded, setup the glcanvas
-  SceneCanvas(glcanvas, 'GLEAT/DrawingUtils', 800, 600, scene);
+  SceneCanvas(glcanvas, 'GLEAT/DrawingUtils', 1280, 900, scene);
   requestAnimFrame(glcanvas.repaint);
 }
 
@@ -169,7 +169,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   glcanvas.clickType = "LEFT";
   
   //Lighting info
-  glcanvas.ambientColor = vec3.fromValues(0.3, 0.3, 0.3);
+  glcanvas.ambientColor = vec3.fromValues(0.4, 0.4, 0.4);
   glcanvas.light1Pos = vec3.fromValues(0, 0, 0);
   glcanvas.light2Pos = vec3.fromValues(0, 0, -1);
   glcanvas.lightColor = vec3.fromValues(0.9, 0.9, 0.9);
@@ -190,7 +190,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   glcanvas.camera = glcanvas.externalCam;
   //Meshes for source and receiver
   glcanvas.beaconMesh = getIcosahedronMesh();
-  updateBeaconsPos();
+  //updateBeaconsPos();
   
   /////////////////////////////////////////////////////
   //Step 1: Setup repaint function
@@ -264,7 +264,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
       glcanvas.camera.translate(0, 0, glcanvas.movefb, glcanvas.walkspeed*dt);
       glcanvas.camera.translate(0, glcanvas.moveud, 0, glcanvas.walkspeed*dt);
       glcanvas.camera.translate(glcanvas.movelr, 0, 0, glcanvas.walkspeed*dt);
-      updateBeaconsPos(); //Update HTML display of vector positions
+      //updateBeaconsPos(); //Update HTML display of vector positions
       requestAnimFrame(glcanvas.repaint);
     }
   }

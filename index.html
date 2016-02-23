@@ -32,75 +32,48 @@
 <script src="main/SoundTools.js"></script>
 </head>
 
+<link type="text/css" rel="stylesheet" href="./main/style.css"/>
+
 <body>
 
-<table><tr><td>
-<canvas id="GLCanvas1" style="border: none;" width="800" height="600"></canvas>
-<center><h3>Impulse Response</h3></center>
 <div id="impulsePlot"></div>
 
-</td>
-<td>
+<div class="controls">
+  <span>
+    Scene File <input type = "file" id = "sceneInput">
+  </span>
 
-<h3>Scene</h3>
-<table>
-<tr><td>Scene File</td><td><input type = "file" id = "sceneInput"></td></tr>
-</table>
+<span class="control">
+<p>Display Mesh Edges<input type="checkbox" id="meshEdgesCheckbox"</p>
+<p>Display Image Sources<input type="checkbox" id="displayImageSourcesCheckbox"/>
+<p>Display Paths<input type="checkbox" id="displayPathsCheckbox"/>
+</span>
 
-<h3>Options</h3>
-<table>
-<tr><td>Display Mesh Edges</td><td><input type="checkbox" id="meshEdgesCheckbox" /></td></tr>
-<tr><td>Display Image Sources</td><td><input type="checkbox" id="displayImageSourcesCheckbox" /></td></tr>
-<tr><td>Display Paths</td><td><input type="checkbox" id="displayPathsCheckbox" /></td></tr>
-</table>
+<button type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
+<button type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
+<button type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
 
-<h3>Viewpoint</h3>
-<table>
-<tr>
-<td><button type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button></td>
-<td><button type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button></td>
-<td><button type="button" id = "externalButton" onclick="callViewFromExternal()">External</button></td>
-</tr>
-<tr><td>Source Pos:</td><td colspan = "2"><div id="sourcePos"></div></td></tr>
-<tr><td>Receiver Pos:</td><td colspan = "2"><div id="receiverPos"></div></td></tr>
-<tr><td>External Pos:</td><td colspan = "2"><div id="externalPos"></div></td></tr>
-</table>
+<button type="button" id = "sourcesButton" onclick="callComputeImageSources()">Compute Image Sources</button> of order <input type="text" id="sourceorder" size="1"></input>
+<button type="button" id = "pathsButton" onclick="callExtractPaths()">Extract Paths Source To Receiver</button>
+<button type="button" id = "sourceButton" onclick="callComputeImpulseResponse()">Compute Impulse Response</button>
 
-<h3>Algorithm</h3>
-<table>
-<tr><td><button type="button" id = "sourcesButton" onclick="callComputeImageSources()">Compute Image Sources</button> of order <input type="text" id="sourceorder" size="1"></input></td></tr>
-<tr><td><button type="button" id = "pathsButton" onclick="callExtractPaths()">Extract Paths Source To Receiver</button></td></tr>
-<tr><td><button type="button" id = "sourceButton" onclick="callComputeImpulseResponse()">Compute Impulse Response</button></td></tr>
-</table>
+Audio File
+<button type = "button" onclick = "playAudioSource()">Play</button>
+<button type = "button" onclick = "pauseAudio()">Stop</button>
+<input type = "file" id = "audioInput">
 
-<h3>Audio Playback</h3>
-<table>
+Impulse Response
+<button type = "button" onclick = "playAudioImpulse()">Play</button>
+<button type = "button" onclick = "pauseAudio()">Stop</button>
 
-<tr>
-<td>Audio File</td>
-<td><button type = "button" onclick = "playAudioSource()">Play</button></td>
-<td><button type = "button" onclick = "pauseAudio()">Stop</button></td>
-<td><input type = "file" id = "audioInput"></td>
-</tr>
+Convolution
+<button type = "button" onclick = "playAudioConv()">Play</button>
+<button type = "button" onclick = "pauseAudio()">Stop</button>
+<button type = "button" onclick = "recomputeConv()">Recompute</button>
 
-<tr>
-<td>Impulse Response</td>
-<td><button type = "button" onclick = "playAudioImpulse()">Play</button></td>
-<td><button type = "button" onclick = "pauseAudio()">Stop</button></td>
-<td></td>
-</tr>
+</div>
 
-<tr>
-<td>Convolution</td>
-<td><button type = "button" onclick = "playAudioConv()">Play</button></td>
-<td><button type = "button" onclick = "pauseAudio()">Stop</button></td>
-<td><button type = "button" onclick = "recomputeConv()">Recompute</button></td>
-</tr>
-
-</table>
-
-</td></tr>
-</table>
+<canvas id="GLCanvas1" width="900" height="500"></canvas>
 
 <script>
 "use strict";
