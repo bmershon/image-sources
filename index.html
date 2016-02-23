@@ -68,26 +68,28 @@
 </div>
 
 <div class="audio_controls">
-  <button type = "button" onclick = "playAudioSource()">Play</button>
-  <button type = "button" onclick = "pauseAudio()">Stop</button>
+  <p>♬ Source Signal ♬</p>
+  <button type = "button" class="play" onclick = "playAudioSource()">&#9654;</button>
+  <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
   <input type = "file" id = "audioInput">
 </div>
 
+<div class="audio_controls">
+  <p>Impulse Response</p>
+  <button type = "button" class="play" onclick = "playAudioImpulse()">&#9654;</button>
+  <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
+</div>
 
-Impulse Response
-<button type = "button" onclick = "playAudioImpulse()">Play</button>
-<button type = "button" onclick = "pauseAudio()">Stop</button>
-
-Convolution
-<button type = "button" onclick = "playAudioConv()">Play ♬</button>
-<button type = "button" onclick = "pauseAudio()">Stop</button>
-<button type = "button" onclick = "recomputeConv()">Recompute ~</button>
-
+<div class="audio_controls">
+  <p>Convolution</p>
+  <button class="convolve" type = "button" onclick = "recomputeConv()">Convolve!</button>
+  <button type = "button" class="play" onclick = "playAudioConv()">&#9654;</button>
+  <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
+</div>
 
 <div width="1080" height="200" id="impulsePlot"></div>
 
 <script>
-"use strict";
 var glcanvas = document.getElementById("GLCanvas1");
 
 glcanvas.addEventListener("contextmenu", function(e){
@@ -158,12 +160,14 @@ function callComputeImpulseResponse() {
 ///////////////////////////////////////////
 //             Audio stuff               //
 ///////////////////////////////////////////
-var source = null;
-var analyser = null;
-var buffer = null;
-var impbuffer = null;
-var convbuffer = null;
-var context = new (window.AudioContext || window.webkitAudioContext)();
+var source = null,
+    analyser = null,
+    playing = true,
+    buffer = null,
+    impbuffer = null,
+    convbuffer = null,
+    context = new (window.AudioContext || window.webkitAudioContext)();
+
 function playAudioSource() {
   playAudio(buffer);
 }
@@ -180,7 +184,7 @@ function playAudio(b) {
   if (context === null) {
     return;
   }
-  if (!(source === null)) {
+  if (!(source === null) && playing) {
     source.stop();
   }
   source = context.createBufferSource();
