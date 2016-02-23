@@ -31,22 +31,24 @@
 <script src="main/image-sources.js"></script>
 <script src="main/SoundTools.js"></script>
 </head>
-
+<link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 <link type="text/css" rel="stylesheet" href="./main/style.css"/>
 
 <body>
-
-<div id="impulsePlot"></div>
+<header>
+<p class="title">Image Sources</p>
+</header>
 
 <div class="controls">
-  <span>
-    Scene File <input type = "file" id = "sceneInput">
-  </span>
 
-<span class="control">
-<p>Display Mesh Edges<input type="checkbox" id="meshEdgesCheckbox"</p>
-<p>Display Image Sources<input type="checkbox" id="displayImageSourcesCheckbox"/>
-<p>Display Paths<input type="checkbox" id="displayPathsCheckbox"/>
+<span>
+  <p><input type="checkbox" id="meshEdgesCheckbox"> Display Mesh Edges</p>
+</span>
+</span>
+  <p><input type="checkbox" id="displayImageSourcesCheckbox"/> Display Image Sources</p>
+</span>
+<span>
+  <p><input type="checkbox" id="displayPathsCheckbox"/> Display Paths</p>
 </span>
 
 <button type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
@@ -73,7 +75,9 @@ Convolution
 
 </div>
 
-<canvas id="GLCanvas1" width="900" height="500"></canvas>
+<canvas id="GLCanvas1" width="1080" height="600"></canvas>
+
+<div width="1080" height="200" id="impulsePlot"></div>
 
 <script>
 "use strict";

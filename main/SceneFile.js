@@ -169,10 +169,10 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   glcanvas.clickType = "LEFT";
   
   //Lighting info
-  glcanvas.ambientColor = vec3.fromValues(0.4, 0.4, 0.4);
+  glcanvas.ambientColor = vec3.fromValues(0.9, 0.9, 0.9);
   glcanvas.light1Pos = vec3.fromValues(0, 0, 0);
   glcanvas.light2Pos = vec3.fromValues(0, 0, -1);
-  glcanvas.lightColor = vec3.fromValues(0.9, 0.9, 0.9);
+  glcanvas.lightColor = vec3.fromValues(0.8, 0.9, 0.9);
   
   //Scene and camera stuff
   glcanvas.scene = scene;

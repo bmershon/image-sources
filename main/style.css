@@ -1,13 +1,58 @@
 body {
   background-color: #f3f3f3;
+  text-align: center;
+}
+
+p {
+  font-family: 'Poiret One', cursive;
 }
 
 .controls {
-  width: 200px;
-  height: auto;
-  float: right;
+  height: 200px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+p.controls {
+  font-size: 22px;
 }
 
 #GLCanvas1 {
   border: 2px solid #000;
+  margin-left: auto;
+}
+
+#impulsePlot {
+  top: 10;
+  margin-left: auto;
+  background-color: #f3f3f3;
+}
+
+.title {
+  z-index: 2;
+  font-weight: bold;
+  text-shadow:
+    -.1px -.1px 0 #fff,
+    .1px -1px 0 #fff,
+    -1px .1px 0 #fff,
+    .1px .1px 0 #fff; 
+  pointer-events: none;
+  font-size: 48px;
+}
+
+button {
+  background-color: #a3a3a3;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+button.src {
+  background-color: blue;
 }
