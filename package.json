@@ -21,6 +21,9 @@
     "prepublish": "npm run test && uglifyjs build/image-sources.js -c -m -o build/scene-extension.min.js && rm -f build/image-sources.zip && zip -j build/image-sources.zip -- LICENSE README.md build/image-sources.js build/image-sources.min.js"
   },
   "devDependencies": {
+    "d3": "3.5.6^"
+  },
+  "devDependencies": {
     "faucet": "0.0",
     "rollup": "0.20.5",
     "tape": "4",

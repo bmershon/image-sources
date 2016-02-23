@@ -9,10 +9,7 @@
 <script type="text/javascript" src="/libs/GLEAT/js/numeric-1.2.6.min.js"></script>
 <script type="text/javascript" src="/libs/GLEAT/js/jquery-1.11.1.min.js"></script>
 <!--D3 stuff!-->
-<script src="libs/d3-collection.v0.1.min.js"></script>
-<script src="libs/d3-dispatch.v0.3.min.js"></script>
-<script src="libs/d3-dsv.v0.2.min.js"></script>
-<script src="libs/d3-request.min.js"></script>
+<script src="node_modules/d3/d3.min.js"></script>
 <!--Plot.ly!-->
 <script src="libs/plotly.min.js"></script>
 <!--DSP library!-->
@@ -36,46 +33,56 @@
 
 <body>
 <header>
-<p class="title">Image Sources</p>
+  <p class="title">Image Sources</p>
 </header>
 
-<div class="controls">
+<div class="scene_picker">
+  <input type = "file" id = "sceneInput">
+</div>
 
-<span>
-  <p><input type="checkbox" id="meshEdgesCheckbox"> Display Mesh Edges</p>
-</span>
-</span>
-  <p><input type="checkbox" id="displayImageSourcesCheckbox"/> Display Image Sources</p>
-</span>
-<span>
-  <p><input type="checkbox" id="displayPathsCheckbox"/> Display Paths</p>
-</span>
+<div class="top_controls">
+  <p>Control</p>
+  <button class="source" type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
+  <button class="receiver" type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
+  <button class="external" type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
+</div>
 
-<button type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
-<button type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
-<button type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
+<canvas id="GLCanvas1" width="1280" height="500"></canvas>
 
-<button type="button" id = "sourcesButton" onclick="callComputeImageSources()">Compute Image Sources</button> of order <input type="text" id="sourceorder" size="1"></input>
-<button type="button" id = "pathsButton" onclick="callExtractPaths()">Extract Paths Source To Receiver</button>
-<button type="button" id = "sourceButton" onclick="callComputeImpulseResponse()">Compute Impulse Response</button>
+<div class="render_controls">
+  <span>
+    <input type="checkbox" id="meshEdgesCheckbox" checked> Display Mesh Edges
+  </span>
+  </span>
+    <input type="checkbox" id="displayImageSourcesCheckbox" checked=""> Display Image Sources
+  </span>
+  <span>
+    <input type="checkbox" id="displayPathsCheckbox" checked> Display Paths
+  </span>
+</div>
 
-Audio File
-<button type = "button" onclick = "playAudioSource()">Play</button>
-<button type = "button" onclick = "pauseAudio()">Stop</button>
-<input type = "file" id = "audioInput">
+<div class="simulation_controls">
+  <button class="reflect" type="button" id = "sourcesButton" onclick="callComputeImageSources()">Compute Image Sources</button> of order <input type="text" value=1 id="sourceorder" size="1"></input>
+  <button class="extract" type="button" id = "pathsButton" onclick="callExtractPaths()">Extract Paths</button>
+  <button class="response" type="button" id = "sourceButton" onclick="callComputeImpulseResponse()">Compute Impulse Response</button>
+</div>
+
+<div class="audio_controls">
+  <button type = "button" onclick = "playAudioSource()">Play</button>
+  <button type = "button" onclick = "pauseAudio()">Stop</button>
+  <input type = "file" id = "audioInput">
+</div>
+
 
 Impulse Response
 <button type = "button" onclick = "playAudioImpulse()">Play</button>
 <button type = "button" onclick = "pauseAudio()">Stop</button>
 
 Convolution
-<button type = "button" onclick = "playAudioConv()">Play</button>
+<button type = "button" onclick = "playAudioConv()">Play ♬</button>
 <button type = "button" onclick = "pauseAudio()">Stop</button>
-<button type = "button" onclick = "recomputeConv()">Recompute</button>
+<button type = "button" onclick = "recomputeConv()">Recompute ~</button>
 
-</div>
-
-<canvas id="GLCanvas1" width="1080" height="600"></canvas>
 
 <div width="1080" height="200" id="impulsePlot"></div>
 
