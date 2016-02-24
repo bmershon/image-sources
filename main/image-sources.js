@@ -160,11 +160,9 @@
           p = {pos: soln.p, rcoeff: target.rcoeff}; // face intersection
           exclusion = target.genFace;
           path.push(p);
-          console.debug(path, target);
         } else {
           break; // abort path
         }
-
         target = target.parent; // image source that generated this target
       }
     }

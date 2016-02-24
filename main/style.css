@@ -1,22 +1,33 @@
 body {
   background-color: #f3f3f3;
+}
+
+div {
   text-align: center;
+}
+
+div.left_justified {
+  display: inline-block;
+  text-align: left
+}
+
+header {
+  text-align: center;
+}
+
+h1, h2, h3 {
   font-family: 'Poiret One', cursive;
 }
 
 p {
-  font-size: 24px;
-  line-height: 1.5em;
-}
-
-.credits {
+  max-width: 720px;
   font-size: 18px;
+  line-height: 1.5em;
+  font-family: "PT Serif", serif;
 }
 
-p.caption {
-  margin: auto;
-  width: 770px;
-  font-size: 22px;
+#intro {
+  margin-left: auto;
 }
 
 .top_controls {
@@ -59,6 +70,14 @@ p.caption {
   cursor: crosshair;
 }
 
+.note {
+  box-shadow: 0 8px 16px rgba(204,204,119,0.4);
+  background: #ffa;
+  border-bottom: solid 2px rgba(204,204,119,0.6);
+  padding: 1px;
+  margin: 2em -14px 0 -14px;
+}
+
 #graph{
     min-height: 450px;
 }
@@ -88,7 +107,7 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 14px;
+  margin: 4px 6px;
   cursor: pointer;
   border-radius: 10px;
 }
@@ -140,4 +159,12 @@ button.convolve {
 
 g.subplot.xy > rect {
   fill: none; !important
+}
+
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
 }

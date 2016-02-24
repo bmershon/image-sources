@@ -32,30 +32,42 @@
 <link type="text/css" rel="stylesheet" href="./main/style.css"/>
 
 <body>
+
 <header>
   <h1>Specular Reflections</h1>
-  <p class="credits">by 
+  <span class="credits">by 
     <a href="https://github.com/ctralie">Chris Tralie</a> and 
     <a href="https://github.com/bmershon/">Brooks Mershon</a>
-  </p>
+  </span>
 </header>
 
-<p class="caption">
-  Modeling all specular reflections between a sound source and a sound receiver.
-</p>
+
+<div>
+  <div class="left_justified">
+    <p class="note">
+      Specular reflections between a <span class="blue"><b>sound source</b></span> and a <span class="red"><b>sound receiver</b></span> can be used to simulate an impulse response in a 3D environment. Each polygon has material properties that describe how much sound is absorbed or reflected, and the polygons are placed somewhere within a scene graph.
+    </p>
+  </div>
+</div>
+
+<div>
+    
+</div>
 
 <div class="scene_picker">
   <input type = "file" id = "sceneInput">
 </div>
 
 <div class="top_controls">
-  <p>Position Control</p>
+  <h2>Click to change position</2>
   <button class="source" type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
   <button class="receiver" type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
   <button class="external" type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
 </div>
 
-<canvas id="GLCanvas1" width="1280" height="500"></canvas>
+<div>
+  <canvas id="GLCanvas1" width="1280" height="500"></canvas>
+</div>
 
 <div class="render_controls">
   <span>
@@ -103,10 +115,14 @@
 
 <hr>
 
-<div id="graph">
-  <p class="caption">A graph of the impulse response for this scene.
-  <br>The highest amplitude represents the first echo resulting from specular reflections.</p>
-  <div width="1080" id="impulsePlot">
+<div>
+  <div class="left_justified">
+    <p class="note">
+      The first non-zero amplitude represents the first <em>echo</em> in the scene. The highest amplitude likely corresponds to the shortest reflection path, but sound-deadening properties of the materals in the scene may cause a short path to result in a very faint <em>echo</em>.
+    </p>  
+    <div id="graph">
+      <div width="1080" id="impulsePlot"></div>
+    </div>
   </div>
 </div>
 
