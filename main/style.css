@@ -6,14 +6,20 @@ body {
 
 p {
   font-size: 24px;
+  line-height: 1.5em;
 }
 
-p.comment {
-  font-size: 16px;
+.credits {
+  font-size: 18px;
+}
+
+p.caption {
+  margin: auto;
+  width: 770px;
+  font-size: 22px;
 }
 
 .top_controls {
-  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -22,6 +28,7 @@ p.comment {
   top: 20px;
   left: 20px;
 }
+
 .render_controls {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -32,17 +39,28 @@ p.comment {
   margin-bottom: 20px;
 }
 
+.sound_picker {
+  display: block;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 20px;
+}
+
 .audio_controls {
   display: inline-block;
   margin-left: 40px;
   margin-right: 40px;
-  margin-top: 20px;
   margin-bottom: 20px;
 }
 
 #GLCanvas1 {
   border: 2px solid #000;
   margin-left: auto;
+  cursor: crosshair;
+}
+
+#graph{
+    min-height: 450px;
 }
 
 #impulsePlot {
@@ -70,7 +88,7 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 4px 14px;
   cursor: pointer;
   border-radius: 10px;
 }

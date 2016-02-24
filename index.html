@@ -33,15 +33,23 @@
 
 <body>
 <header>
-  <p class="title">Image Sources</p>
+  <h1>Specular Reflections</h1>
+  <p class="credits">by 
+    <a href="https://github.com/ctralie">Chris Tralie</a> and 
+    <a href="https://github.com/bmershon/">Brooks Mershon</a>
+  </p>
 </header>
+
+<p class="caption">
+  Modeling all specular reflections between a sound source and a sound receiver.
+</p>
 
 <div class="scene_picker">
   <input type = "file" id = "sceneInput">
 </div>
 
 <div class="top_controls">
-  <p>Control</p>
+  <p>Position Control</p>
   <button class="source" type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
   <button class="receiver" type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
   <button class="external" type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
@@ -67,27 +75,40 @@
   <button class="response" type="button" id = "sourceButton" onclick="callComputeImpulseResponse()">Compute Impulse Response</button>
 </div>
 
-<div class="audio_controls">
-  <p>♬ Source Signal ♬</p>
-  <button type = "button" class="play" onclick = "playAudioSource()">&#9654;</button>
-  <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
+<hr>
+
+<div class="sound_picker">
+  <h2>Choose some tunes</h2>
   <input type = "file" id = "audioInput">
 </div>
 
 <div class="audio_controls">
-  <p>Impulse Response</p>
+  <h3>♬ Source Signal ♬</h3>
+  <button type = "button" class="play" onclick = "playAudioSource()">&#9654;</button>
+  <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
+</div>
+
+<div class="audio_controls">
+  <h3>Impulse Response</h3>
   <button type = "button" class="play" onclick = "playAudioImpulse()">&#9654;</button>
   <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
 </div>
 
 <div class="audio_controls">
-  <p>Convolution</p>
+  <h3>Convolution</h3>
   <button class="convolve" type = "button" onclick = "recomputeConv()">Convolve!</button>
   <button type = "button" class="play" onclick = "playAudioConv()">&#9654;</button>
   <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
 </div>
 
-<div width="1080" height="200" id="impulsePlot"></div>
+<hr>
+
+<div id="graph">
+  <p class="caption">A graph of the impulse response for this scene.
+  <br>The highest amplitude represents the first echo resulting from specular reflections.</p>
+  <div width="1080" id="impulsePlot">
+  </div>
+</div>
 
 <script>
 var glcanvas = document.getElementById("GLCanvas1");
