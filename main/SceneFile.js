@@ -420,7 +420,6 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     if (scene.impulseResp.length == 0) {
       return; //Student hasn't filled in yet.  Exit gracefully
     }
-    
     //Step 2: Plot the impulse response as a stem plot with milliseconds on the x-axis
     //and magnitude on the y-axis
     console.log("impulseResp.length = " + scene.impulseResp.length);
@@ -432,7 +431,6 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
       }
     }
     Plotly.newPlot('impulsePlot', data, {paper_bgcolor: "#f3f3f3", xaxis:{title:'Time (Milliseconds)'}, yaxis:{title:'Magnitude'}});
-    
     //Step 3: Create a new audio buffer and copy over the data
     //https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createBuffer
     impbuffer = context.createBuffer(1, scene.impulseResp.length, globalFs);
