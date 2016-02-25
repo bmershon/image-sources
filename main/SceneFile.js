@@ -430,7 +430,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
         data.push({x:[1000*i/globalFs, 1000*i/globalFs], y:[0, gamma], mode:'lines+markers'});
       }
     }
-    Plotly.newPlot('impulsePlot', data, {paper_bgcolor: "#f3f3f3", xaxis:{title:'Time (Milliseconds)'}, yaxis:{title:'Magnitude'}});
+    Plotly.newPlot('impulsePlot', data, {paper_bgcolor: "#fafafa", xaxis:{title:'Time (Milliseconds)'}, yaxis:{title:'Magnitude'}});
     //Step 3: Create a new audio buffer and copy over the data
     //https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createBuffer
     impbuffer = context.createBuffer(1, scene.impulseResp.length, globalFs);
