@@ -41,34 +41,29 @@
   </span>
 </header>
 
-<div class="scene_picker">
-  <input type = "file" id = "sceneInput">
-</div>
-
 <p class="note">
    Specular reflections between a <span class="blue"><b>sound source</b></span> and a <span class="red"><b>sound receiver</b></span> can be used to simulate an impulse response in a 3D environment. Each polygon has material properties that describe how much sound is absorbed or reflected, and the polygons are placed somewhere within a scene graph.
 </p>
 
 <div class="center">
   <h2>Click to change position</h2>
-  <div>
-    <button class="source" type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
-    <button class="receiver" type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
-    <button class="external" type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
-  </div>
+  <button class="source" type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
+  <button class="receiver" type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
+  <button class="external" type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
 </div>
 
 <canvas id="GLCanvas1" width="960" height="500"></canvas>
 
 <div class="center">
+  <input type = "file" class="inputfile" id = "sceneInput">
   <span>
-    <input type="checkbox" id="meshEdgesCheckbox" checked> Display Mesh Edges
+    <input type="checkbox" id="meshEdgesCheckbox" checked> Mesh Edges
   </span>
   </span>
-    <input type="checkbox" id="displayImageSourcesCheckbox" checked=""> Display Image Sources
+    <input type="checkbox" id="displayImageSourcesCheckbox" checked=""> Image Sources
   </span>
   <span>
-    <input type="checkbox" id="displayPathsCheckbox" checked> Display Paths
+    <input type="checkbox" id="displayPathsCheckbox" checked> Paths
   </span>
 </div>
 
