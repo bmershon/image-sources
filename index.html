@@ -1,35 +1,158 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<!--External Libraries!-->
-<!--<script type="text/javascript" src="js/gl-matrix.js"></script>!-->
-<script type="text/javascript" src = "/libs/GLEAT/js/gl-matrix-min.js"></script>
-<script type="text/javascript" src="/libs/GLEAT/js/webgl-utils.js"></script>
-<script type="text/javascript" src="/libs/GLEAT/js/webgl-debug.js"></script>
-<script type="text/javascript" src="/libs/GLEAT/js/numeric-1.2.6.min.js"></script>
-<script type="text/javascript" src="/libs/GLEAT/js/jquery-1.11.1.min.js"></script>
-<!--D3 stuff!-->
-<script src="node_modules/d3/d3.min.js"></script>
-<!--Plot.ly!-->
-<script src="libs/plotly.min.js"></script>
-<!--DSP library!-->
-<script src="libs/dsp.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--External Libraries!-->
+  <!--<script type="text/javascript" src="js/gl-matrix.js"></script>!-->
+  <script type="text/javascript" src="/libs/GLEAT/js/gl-matrix-min.js"></script>
+  <script type="text/javascript" src="/libs/GLEAT/js/webgl-utils.js"></script>
+  <script type="text/javascript" src="/libs/GLEAT/js/webgl-debug.js"></script>
+  <script type="text/javascript" src="/libs/GLEAT/js/numeric-1.2.6.min.js"></script>
+  <script type="text/javascript" src="/libs/GLEAT/js/jquery-1.11.1.min.js"></script>
+  <!--D3 stuff!-->
+  <script src="node_modules/d3/d3.min.js"></script>
+  <!--Plot.ly!-->
+  <script src="libs/plotly.min.js"></script>
+  <!--DSP library!-->
+  <script src="libs/dsp.js"></script>
 
-<script src="libs/projection.js"></script>
+  <script src="libs/projection.js"></script>
 
-<!--Our Scripts!-->
-<script src="/libs/GLEAT/Geometry/PolyMesh.js"></script>
-<script src="/libs/GLEAT/Geometry/Primitives3D.js"></script>
-<script src="/libs/GLEAT/Geometry/Cameras3D.js"></script>
-<script src="/libs/GLEAT/DrawingUtils/Shaders.js"></script>
-<script src="/libs/GLEAT/DrawingUtils/SimpleDraw.js"></script>
-<script src="/libs/GLEAT/Viewers/SimpleMeshCanvas.js"></script>
-<script src="main/SceneFile.js"></script>
-<script src="main/image-sources.js"></script>
-<script src="main/SoundTools.js"></script>
+  <!--Our Scripts!-->
+  <script src="/libs/GLEAT/Geometry/PolyMesh.js"></script>
+  <script src="/libs/GLEAT/Geometry/Primitives3D.js"></script>
+  <script src="/libs/GLEAT/Geometry/Cameras3D.js"></script>
+  <script src="/libs/GLEAT/DrawingUtils/Shaders.js"></script>
+  <script src="/libs/GLEAT/DrawingUtils/SimpleDraw.js"></script>
+  <script src="/libs/GLEAT/Viewers/SimpleMeshCanvas.js"></script>
+  <script src="main/SceneFile.js"></script>
+  <script src="main/image-sources.js"></script>
+  <script src="main/SoundTools.js"></script>
 </head>
+
 <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 <link type="text/css" rel="stylesheet" href="./main/style.css"/>
+
+<style>
+
+@import url(/main/style.css);
+
+/* wideer body than specified in style.css*/
+body {
+  max-width: 1280px;
+}
+
+#graph{
+  min-height: 450px;
+}
+
+#impulsePlot {
+  margin-left: auto;
+}
+
+.title {
+  font-weight: bold;
+  text-shadow:
+    -.1px -.1px 0 #fff,
+    .1px -1px 0 #fff,
+    -1px .1px 0 #fff,
+    .1px .1px 0 #fff; 
+  pointer-events: none;
+  font-size: 48px;
+}
+
+.row {
+  display: inline-block;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.center {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+button {
+  outline: none;
+  background-color: #a3a3a3;
+  border: 2px solid #000;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 6px;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+#sourceorder {
+  font-size: 22px;
+}
+
+button:hover {
+  opacity: 0.6;
+}
+
+button.source {
+  background-color: blue;
+}
+
+button.receiver {
+  background-color: red;
+}
+
+button.external {
+  background-color: #323232
+}
+
+button.reflect {
+  border: 2px solid #000;
+}
+
+button.extract {
+  border: 2px solid #FF0000;
+}
+
+button.response {
+  border: 2px solid #000;
+}
+
+button.play {
+  color: #000;
+}
+
+button.pause {
+  color: red;
+}
+
+button.convolve {
+  border: 1px solid #000;
+  background-color: #E7550D;
+  padding: 6px 16px;
+}
+
+g.subplot.xy > rect {
+  fill: none; !important
+}
+
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
+}
+
+.progress {
+  font-size: 24px;
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+</style>
 
 <body>
 
@@ -46,6 +169,18 @@
 </p>
 
 <div class="center">
+  You can load a new <code>.scn</code> file
+  <span class="progress">&rarr;</span>
+  <input type = "file" class="inputfile" id = "sceneInput">
+</div>
+
+<aside style="text-indent:-.7em;">
+  *Use <strong>WASD</strong> to walk.<br>
+  <strong>Mouse</strong> to look.<br>
+  <strong>E</strong> and <strong>C</strong> move up and down.
+</aside>
+
+<div class="center">
   <h2>Click to change position</h2>
   <button class="source" type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
   <button class="receiver" type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
@@ -55,7 +190,6 @@
 <canvas id="GLCanvas1" width="960" height="500"></canvas>
 
 <div class="center">
-  <input type = "file" class="inputfile" id = "sceneInput">
   <span>
     <input type="checkbox" id="meshEdgesCheckbox" checked> Mesh Edges
   </span>
@@ -84,11 +218,17 @@
   <h2>Choose some tunes</h2>
   <input type = "file" id = "audioInput">
   <div>
-    <button class="convolve" type = "button" onclick = "recomputeConv()">Convolve</button>
-  </div>
-  <div>
     <span class="progress">&darr;</span>
   </div>
+</div>
+
+<hr>
+
+<div class="center">
+  <div class="wrapper">
+    Perform the Fast Fourier Transform.
+  </div>
+  <button class="convolve" type = "button" onclick = "recomputeConv()">Convolve</button>
 </div>
 
 <hr>
@@ -115,9 +255,9 @@
 
 <hr>
 
-<p class="note">
+<div class="wrapper">
   The first non-zero amplitude represents the first <em>echo</em> in the scene. The highest amplitude likely corresponds to the shortest reflection path, but sound-deadening properties of the materals in the scene may cause a short path to result in a very faint <em>echo</em>.
-</p>  
+</div>  
 
 <div class="center">
     <h2>Graph of the impulse response</h2>
