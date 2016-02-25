@@ -49,7 +49,7 @@
    Specular reflections between a <span class="blue"><b>sound source</b></span> and a <span class="red"><b>sound receiver</b></span> can be used to simulate an impulse response in a 3D environment. Each polygon has material properties that describe how much sound is absorbed or reflected, and the polygons are placed somewhere within a scene graph.
 </p>
 
-<div class="control">
+<div class="center">
   <h2>Click to change position</h2>
   <div>
     <button class="source" type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
@@ -60,7 +60,7 @@
 
 <canvas id="GLCanvas1" width="960" height="500"></canvas>
 
-<div class="render_controls">
+<div class="center">
   <span>
     <input type="checkbox" id="meshEdgesCheckbox" checked> Display Mesh Edges
   </span>
@@ -72,8 +72,8 @@
   </span>
 </div>
 
-<div class="simulation_controls">
-  <button class="reflect" type="button" id = "sourcesButton" onclick="callComputeImageSources()">Compute Image Sources of Order</button><input type="text" value=1 id="sourceorder" size="1"></input>
+<div class="center">
+  <button class="reflect" type="button" id = "sourcesButton" onclick="callComputeImageSources()">Compute Image Sources of Order</button> <input type="text" value=1 id="sourceorder" size="1"></input>
   <span class="progress">&rarr;<span>
   <button class="extract" type="button" id = "pathsButton" onclick="callExtractPaths()">Extract Paths</button>
   <span class="progress">&rarr;</span>
@@ -82,49 +82,51 @@
 
 <hr>
 
-<div>
-  <span class="progress">&darr;</span>
-</div>
-
-<div class="sound_picker">
+<div class="center">
+  <div>
+    <span class="progress">&darr;</span>
+  </div>
   <h2>Choose some tunes</h2>
   <input type = "file" id = "audioInput">
+  <div>
+    <button class="convolve" type = "button" onclick = "recomputeConv()">Convolve</button>
+  </div>
+  <div>
+    <span class="progress">&darr;</span>
+  </div>
 </div>
 
-<div>
-  <button class="convolve" type = "button" onclick = "recomputeConv()">Convolve</button>
-</div>
+<hr>
 
-<div>
-  <span class="progress">&darr;</span>
+<div class="center">
+  <div class="row">
+    <h3>♬ Source Signal ♬</h3>
+    <button type = "button" class="play" onclick = "playAudioSource()">&#9654;</button>
+    <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
+  </div>
+
+  <div class="row">
+    <h3>Impulse Response</h3>
+    <button type = "button" class="play" onclick = "playAudioImpulse()">&#9654;</button>
+    <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
+  </div>
+
+  <div class="row">
+    <h3>Convolution</h3>
+    <button type = "button" class="play" onclick = "playAudioConv()">&#9654;</button>
+    <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
+  </div>
 </div>
 
 <hr>
 
-<div class="audio_controls">
-  <h3>♬ Source Signal ♬</h3>
-  <button type = "button" class="play" onclick = "playAudioSource()">&#9654;</button>
-  <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
-</div>
-
-<div class="audio_controls">
-  <h3>Impulse Response</h3>
-  <button type = "button" class="play" onclick = "playAudioImpulse()">&#9654;</button>
-  <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
-</div>
-
-<div class="audio_controls">
-  <h3>Convolution</h3>
-  <button type = "button" class="play" onclick = "playAudioConv()">&#9654;</button>
-  <button type = "button" class="pause" onclick = "pauseAudio()">&#10073;&#10073;</button>
-</div>
-
-<hr>
 <p class="note">
   The first non-zero amplitude represents the first <em>echo</em> in the scene. The highest amplitude likely corresponds to the shortest reflection path, but sound-deadening properties of the materals in the scene may cause a short path to result in a very faint <em>echo</em>.
 </p>  
 
-<h2>Graph of the impulse response</h2>
+<div class="center">
+    <h2>Graph of the impulse response</h2>
+</div>
 
 <div id="graph">
   <div width="1080" id="impulsePlot"></div>
