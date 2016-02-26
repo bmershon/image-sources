@@ -38,7 +38,7 @@
 
 /* wideer body than specified in style.css*/
 body {
-  max-width: 960px;
+  max-width: 962px;
 }
 
 #graph{
@@ -75,9 +75,9 @@ body {
 
 button {
   outline: none;
-  background-color: #a3a3a3;
+  background-color: #bfbfbf;
   border: 2px solid #000;
-  color: white;
+  color: #000;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -97,15 +97,15 @@ button:hover {
 }
 
 button.source {
-  background-color: blue;
+  background-color: #8FBBDA;;
 }
 
 button.receiver {
-  background-color: red;
+  background-color: #EB9394;
 }
 
 button.external {
-  background-color: #323232
+  background-color: #96D096
 }
 
 button.reflect {
@@ -139,11 +139,11 @@ g.subplot.xy > rect {
 }
 
 .blue {
-  color: blue;
+  color: #8FBBDA;
 }
 
 .red {
-  color: red;
+  color: #EB9394;
 }
 
 .progress {
@@ -157,7 +157,7 @@ g.subplot.xy > rect {
 <body>
 
 <header>
-  <h1>Specular Reflections</h1>
+  <h1>Specular Reflections and Impulse Response</h1>
   <span class="credits">by 
     <a href="https://github.com/ctralie">Chris Tralie</a> and 
     <a href="https://github.com/bmershon/">Brooks Mershon</a>
@@ -166,7 +166,7 @@ g.subplot.xy > rect {
 
 <div class="wrapper">
   <p>
-     Specular reflections between a <span class="blue"><b>sound source</b></span> and a <span class="red"><b>sound receiver</b></span> can be used to simulate an impulse response in a 3D environment. Each polygon has material properties that describe how much sound is absorbed or reflected, and the polygons are placed somewhere within a scene graph.
+     Specular reflections between a <span class="blue"><b>sound source</b></span> and a <span class="red"><b>sound receiver</b></span> can be used to simulate an impulse response in a 3D environment. Each polygon has material properties that describe how much sound is absorbed or reflected.
   </p>
 </div>
 
@@ -229,7 +229,10 @@ g.subplot.xy > rect {
 <div class="center">
   <div class="wrapper">
     <p>
-      Perform the Fast Fourier Transform.
+      Perform the <a target="_blank" href="http://ocw.mit.edu/resources/res-6-007-signals-and-systems-spring-2011/lecture-notes/MITRES_6_007S11_lec04.pdf">convolution</a> of the input signal and the impulse response computed for a given order of image reflections in the scene.
+      <br>
+      <br>
+      The <a target="_blank" href="http://ocw.mit.edu/courses/mathematics/18-085-computational-science-and-engineering-i-fall-2008/video-lectures/lecture-31-fast-fourier-transform-convolution/">Fast Fourier Transform</a> is used here.
     </p>
   </div>
   <button class="convolve" type = "button" onclick = "recomputeConv()">Convolve</button>
