@@ -38,11 +38,11 @@
 
 /* wideer body than specified in style.css*/
 body {
-  max-width: 962px;
+  max-width: 1282px;
 }
 
 #graph{
-  min-height: 450px;
+  min-height: 900px;
 }
 
 #impulsePlot {
@@ -189,7 +189,7 @@ g.subplot.xy > rect {
   <button class="external" type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
 </div>
 
-<canvas id="GLCanvas1" width="960" height="500"></canvas>
+<canvas id="GLCanvas1" width="1080" height="600"></canvas>
 
 <div class="center">
   <span>
@@ -285,7 +285,7 @@ glcanvas.addEventListener("contextmenu", function(e){
   return false;
 }); //Need this to disable the menu that pops up on right clicking
 
-loadSceneFromFile('/scenes/CeilingFloorBox.scn', glcanvas);
+loadSceneFromFile('/scenes/rotated-campus-quad.scn', glcanvas);
 
 var sceneInput = document.getElementById('sceneInput');
 sceneInput.addEventListener('change', function(e) {
