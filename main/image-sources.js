@@ -327,8 +327,8 @@
     for (let i = 0; i < extents.length; i++) {
       let e = extents[i];
       for (let k = 0; k < 3; k++) {
-        u[k][0] = (e[k][0] < u[k]) ? e[k][0] : u[k];
-        u[k][1] = (e[k][1] > u[k]) ? e[k][1] : u[k];
+        u[k][0] = (e[k][0] < u[k][0]) ? e[k][0] : u[k][0];
+        u[k][1] = (e[k][1] > u[k][1]) ? e[k][1] : u[k][1];
       }
     }
 
@@ -343,32 +343,31 @@
   }
 
   function bbox(node) {
-    let vertices, extents;
+    let vertices,
+        extents,
+        totalExtent = [
+              [Infinity, -Infinity],
+              [Infinity, -Infinity],
+              [Infinity, -Infinity]
+        ];
     
-    if (node === null) return;
-
-    if (node.children) {
-      extents = node.children.map(function(d) { return bbox(d); });
-      
-      if ('mesh' in node) {
-        extents.push(extent(vertices));
-        node.extent = union(extents);
-        return node.extent;
-      } else {
-        return union(extents);
-      }
-
-    } else {
-
+    if ('mesh' in node) {
       vertices = node.mesh.vertices.map(function (d) {
         let transformed = mat4.create();
         vec3.transformMat4(transformed, d.pos, node.accumulated);
         return transformed;
       });
-
-      node.extent = extent(vertices);
-      return node.extent;
+      totalExtent = extent(vertices);
     }
+
+    if (node.children) {
+      extents = node.children.map(function(d) { return bbox(d); });
+      extents.push(totalExtent);
+      totalExtent = union(extents);
+    }
+
+    node.extent = totalExtent;
+    return totalExtent;
   }
 
   function extend(scene) {
