@@ -1,8 +1,14 @@
 import visitChildren from "./visitChildren";
 
 // adding accumulated transforms to all children in scenograph
-export default function accumulateTransforms(root) {
-  visitChildren(root, function accumulate(parent, child) {
+
+export default function accumulateTransforms() {
+  var scene = this;
+  accumulate(scene);
+}
+
+function accumulate(root) {
+  visitChildren(root, function(parent, child) {
     var accumulated = mat4.create();
 
     var I = mat4.create();

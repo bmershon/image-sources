@@ -93,8 +93,6 @@ function setupScene(scene, glcanvas) {
   image_sources.extend(scene);
   
   console.log("Accumulating transforms for all children");
-  scene.accumulateTransforms(scene);
-  // scene.computeBoundingBoxes(scene);
 
   //Now that the scene has loaded, setup the glcanvas
   SceneCanvas(glcanvas, 'GLEAT/DrawingUtils', 1280, 900, scene);
@@ -394,12 +392,14 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   }
   
   glcanvas.computeImageSources = function(order) {
+    scene.accumulateTransforms();
     console.log("Computing image sources of order " + order);
     glcanvas.scene.computeImageSources(order);
     requestAnimFrame(glcanvas.repaint);
   }
   
   glcanvas.extractPaths = function() {
+    scene.computeBoundingBoxes();
     console.log("Extracting paths source to receiver");
     glcanvas.scene.extractPaths();
     //Fill in buffers for path drawer

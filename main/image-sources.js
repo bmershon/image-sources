@@ -19,8 +19,14 @@
   }
 
   // adding accumulated transforms to all children in scenograph
-  function accumulateTransforms(root) {
-    visitChildren(root, function accumulate(parent, child) {
+
+  function accumulateTransforms() {
+    var scene = this;
+    accumulate(scene);
+  }
+
+  function accumulate(root) {
+    visitChildren(root, function(parent, child) {
       var accumulated = mat4.create();
 
       var I = mat4.create();
@@ -287,14 +293,92 @@
     return this;
   }
 
+  // input vec3 objects
+  // returns array containing x, y, z bounds
+  function extent(vertices) {
+    var scene = this,
+        n = vertices.length,
+        b = [
+              [Infinity, -Infinity],
+              [Infinity, -Infinity],
+              [Infinity, -Infinity]
+        ];
+
+    for (let i = 0; i < n; i++) {
+      let v = vertices[i];
+      for (let k = 0; k < 3; k++) {
+        b[k][0] = (v[k] < b[k][0]) ? v[k] : b[k][0];
+        b[k][1] = (v[k] > b[k][1]) ? v[k] : b[k][1];
+      }
+    }
+
+    return b;
+  }
+
+  // returns new extent that is the union of the provided extents
+  function union(extents) {
+    var n = extents.length,
+        u = [
+              [Infinity, -Infinity],
+              [Infinity, -Infinity],
+              [Infinity, -Infinity]
+        ];
+
+    for (let i = 0; i < extents.length; i++) {
+      let e = extents[i];
+      for (let k = 0; k < 3; k++) {
+        u[k][0] = (e[k][0] < u[k]) ? e[k][0] : u[k];
+        u[k][1] = (e[k][1] > u[k]) ? e[k][1] : u[k];
+      }
+    }
+
+    return u;
+  }
+
+  // adding accumulated transforms to all children in scenograph
+
+  function computeBoundingBoxes() {
+    var scene = this;
+    bbox(scene);
+  }
+
+  function bbox(node) {
+    let vertices, extents;
+    
+    if (node === null) return;
+
+    if (node.children) {
+      extents = node.children.map(function(d) { return bbox(d); });
+      
+      if ('mesh' in node) {
+        extents.push(extent(vertices));
+        node.extent = union(extents);
+        return node.extent;
+      } else {
+        return union(extents);
+      }
+
+    } else {
+
+      vertices = node.mesh.vertices.map(function (d) {
+        let transformed = mat4.create();
+        vec3.transformMat4(transformed, d.pos, node.accumulated);
+        return transformed;
+      });
+
+      node.extent = extent(vertices);
+      return node.extent;
+    }
+  }
+
   function extend(scene) {
     // scene actions have this context bound to scene graph object
     scene.computeImageSources = computeImageSources.bind(scene);
     scene.extractPaths = extractPaths.bind(scene);
     scene.obscured = obscured.bind(scene);
     scene.computeImpulseResponse = computeImpulseResponse.bind(scene);
-    
-    scene.accumulateTransforms = accumulateTransforms;
+    scene.accumulateTransforms = accumulateTransforms.bind(scene);
+    scene.computeBoundingBoxes = computeBoundingBoxes.bind(scene);
   }
 
   var version = "0.0.1";
