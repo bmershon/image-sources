@@ -1,10 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('./geom')) :
-  typeof define === 'function' && define.amd ? define('image-sources', ['exports', './geom'], factory) :
-  factory((global.image_sources = {}),global.computeBoundingBoxes);
-}(this, function (exports,computeBoundingBoxes) { 'use strict';
-
-  computeBoundingBoxes = 'default' in computeBoundingBoxes ? computeBoundingBoxes['default'] : computeBoundingBoxes;
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define('image-sources', ['exports'], factory) :
+  factory((global.image_sources = {}));
+}(this, function (exports) { 'use strict';
 
   // recursively traverse all children in scenograph,
   // passing current child and its parent to callback
@@ -297,7 +295,6 @@
     scene.computeImpulseResponse = computeImpulseResponse.bind(scene);
     
     scene.accumulateTransforms = accumulateTransforms;
-    scene.computeBoundingBoxes = computeBoundingBoxes;
   }
 
   var version = "0.0.1";

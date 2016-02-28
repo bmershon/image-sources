@@ -2,7 +2,6 @@ import accumulateTransforms from "./scene/accumulateTransforms";
 import extractPaths from "./geom/extractPaths";
 import computeImageSources from "./geom/computeImageSources";
 import computeImpulseResponse from "./acoustic/computeImpulseResponse";
-import computeBoundingBoxes from "./geom"
 import obscured from "./geom/obscured";
 
 export default function(scene) {
@@ -13,5 +12,4 @@ export default function(scene) {
   scene.computeImpulseResponse = computeImpulseResponse.bind(scene);
   
   scene.accumulateTransforms = accumulateTransforms;
-  scene.computeBoundingBoxes = computeBoundingBoxes;
 }
