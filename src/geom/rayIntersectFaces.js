@@ -8,6 +8,9 @@ export default function rayIntersectFaces(r, v, subtree, excludeFace) {
 
   visitChildren(subtree, function(parent, child) {
     if ('mesh' in child) {
+
+      //if(!intersectAABB(r, v, child.extent)) return;
+
       var mesh = child.mesh;
       for (let f = 0; f < mesh.faces.length; f++) {
         let face = mesh.faces[f];

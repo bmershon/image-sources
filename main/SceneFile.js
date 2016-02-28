@@ -94,6 +94,7 @@ function setupScene(scene, glcanvas) {
   
   console.log("Accumulating transforms for all children");
   scene.accumulateTransforms(scene);
+  // scene.computeBoundingBoxes(scene);
 
   //Now that the scene has loaded, setup the glcanvas
   SceneCanvas(glcanvas, 'GLEAT/DrawingUtils', 1280, 900, scene);
