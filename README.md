@@ -1,8 +1,8 @@
 # Image Sources (Math 290)
 
-This assignment was completed as part of Chris Tralie's *excellent* 3D geometry class (CS/Math 290) taught at Duke University during Spring 2016.
+This assignment was completed as part of 3D Digital Geometry (CS/Math 290) at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
-The assignment is concerned with introducing undergraduates to acoustic simulations. 3D transformations are used to simulate "echos" in simple scene graphs using webGL. The assignment builds on top of Tralie's *in progress* 3D geometry framework, which is primarily designed for teaching students about geometry operations on meshes. The API for that framework will be changed substantially in the future. As such, this assignment makes use of an early protoype of Chris Tralie's mesh library.
+3D transformations are used to simulate "echos" resulting from specular reflections in simple scene graphs using webGL. The assignment builds on top of Tralie's mesh library that is currently under development. The API for that framework will be changed substantially in the near future. As such, this assignment makes use of an early protoype and plays fast and loose with the rendering business. If you go into the *libs* folder, things get *weird*.
 
 The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/COMPSCI290/Assignments/Group1_ImageSources/spec.html).
 
@@ -12,18 +12,21 @@ View the full running demo [here](http(s)://bmershon.github.io/image-sources).
 
 The student's task is primarily concerned with adding functionality to the scenegraph, including the ability to:
 
-- Generage image sources through reflections of a specified order
-- Gernate paths from source to receiver
+- Generate image sources through reflections of a specified order (e.g. two bounces requires reflections of reflections)
+- Generate paths from source to receiver
 - Generate an impulse response based on the order-n reflection paths that have been generated
-- Process a given audio file and perform convolution with the constructed impulse response
+- Add functionality, such as implementing bounding boxes to speed up raytracing
+- And much more!
 
-All this extra functionality is exposed as an extension that adds functions to `scene` object. The scene object holds all material objects in the scene, the cameras, the source, the receiver, and the reflected image sources and traced paths, and has functions which mutate its state. The files in the *src* folder are compiled (concatenated appropriately) to form a single global `image_sources` object with one method called `extend(scene)` that takes in the scene graph object and adds new methods to it. Given a scene, one adds the funtionality by calling:
+For my own organization, I exposed the functionality that is expected to be added to the `scene` object as an extension that monkey patches these functions during runtime. The scene object holds all material objects in the scene, the cameras, the source, the receiver, and the reflected image sources and traced paths. It also has functions which mutate its state by computing new image sources, new paths, and new impulse response. Additionally, it has some features that allow the scene to accumulate transforms and compute bounding boxes (once and for all, since objects don't move in this simulation).
+
+The files in the *src* folder are compiled (concatenated appropriately) to form a single global `image_sources` object with one method called `extend(scene)` that takes in the scene graph object and adds new methods to it. Given a scene, one adds the functionality by calling:
 
 ```js
 image_sources.extend(scene);
 ```
 
-To build *main/image_sources.js* (the functionality this assignment tasks students with creating), we follow the next few steps.
+To build *main/image_sources.js*, we follow the next few steps.
 
 In the root directory, install all required dependencies as specified in *package.json* by running:
 
@@ -31,13 +34,13 @@ In the root directory, install all required dependencies as specified in *packag
 npm install
 ```
 
-To run all tests and build the *main/image_sources.js* file from source*:
+To build the *main/image_sources.js* file from source*:
 
 ```
 npm run submit
 ```
 
-This command runs a script that looks at *index.js* and follows all the `import` and `export` statements found in the *src* directory to build a script with one exported global variable: `image_sources`. Checkout *package.json* to see the scripts that have been defined.
+This last command runs a script that looks at *index.js* and follows all the `import` and `export` statements found in the *src* directory to build a script with one exported global variable: `image_sources`. Checkout *package.json* to see the scripts that have been defined.
 
 *Using [Rollup](https://github.com/rollup/rollup) to build the image-sources functionality into a single global variable is an attempt to make the student's work in this assignment modular. One significant advantage of doing so is that dependencies and coupling within the student's implementation are made more explicit and easier to follow.*
 
@@ -45,16 +48,19 @@ This command runs a script that looks at *index.js* and follows all the `import`
 
 ## Generating Image Sources
 
+*A spherical mesh and first-order reflections from the source (off center, inside the sphere).*
+
 ![Order-1 reflections from a sphere](images/sphere-images-order-1.png)
 
 ## Path Extraction
 
 ![Extract Paths](images/boxes-reflections-order-4.png)
 
-
 ## Impulse Response
 
-A campus quad scene with a small box to represent a human for scale (height 1.764 meters). Third order reflections are drawn for a scene with hierarchical rotations (all children rotated by 45 degrees under a "dummy node").
+Currently, impulses are placed in the nearest sampling bin without linear interpolation, Gaussian interpolation or any efforts to smooth the response.
+
+*A campus quad scene with a small box to represent a human for scale (height 1.764 meters). Third order reflections are drawn for a scene with hierarchical rotations (all children rotated by 45 degrees under a "dummy node").*
 
 ![Scene](images/campus-quad-order-3.png)
 
@@ -105,20 +111,22 @@ A campus quad scene with a small box to represent a human for scale (height 1.76
 }
 ```
 
-A portion of the graph of the inpulse reponse. We note the direct line-of-sight reponse occurs around at 106 milliseconds and the next impulse occurs at around 132 milliseconds.
+*A portion of the graph of the inpulse reponse. We note the direct line-of-sight reponse occurs around at 106 milliseconds and the next impulse occurs at around 132 milliseconds.*
 
 ![Impulse Response](images/campus-quad-impulse-response.png)
 
 
 ## Bounding Boxes
 
-![Bounding Boxes](images/bounding-boxes.png)
-
 We can speed up the path extraction algorithm by building **axis aligned bounding boxes (AABB)** around the meshes contained in a node.
+
+*An example of bounding boxes drawn around two child nodes, each with scaled and rotated child meshes.*
+
+![Bounding Boxes](images/bounding-boxes.png)
 
 The following process was used to build bounding boxes.
 
-We can recursively build "extents" for each node, where an extent is an array of three tuples, where each tuple is the min/max pair for the X, Y, and Z axis, in that order. An extent can be found for a node with a mesh and no children by iterating through its vertices and finding the corresponding min and max axis values.
+We can recursively build **extents** for each node, where an extent is an array of three tuples; each tuple is the min/max pair for the X, Y, and Z axis, in that order. An extent can be found for a node with a mesh and no children by iterating through its vertices and finding the corresponding min and max axis values.
 
 The union of extents from a node's children along with that particular node's extent gives us an extent for any node in the tree.
 
@@ -168,19 +176,64 @@ export default function union(extents) {
   return u;
 }
 ```
-In order to perform ray intersection tests on the bounding boxes, as well as render them using Tralie's existing (under development) mesh library, we can store an object on each node in the scene graph called `aabb`.
+
+The above two functions are used in a recursive function to build up the extents and bounding boxes (actual PolyMesh object) in this beautiful function:
+
+```js
+import extent from "../aabb/extent";
+import union from "../aabb/union";
+import {default as makeNode} from "../aabb/makeNode";
+
+// adding accumulated transforms to all children in scenograph
+
+export default function computeBoundingBoxes() {
+  var scene = this;
+  if ('extent' in scene) return; // compute once
+  bbox(scene);
+}
+
+function bbox(node) {
+  let vertices,
+      extents,
+      totalExtent = [
+            [Infinity, -Infinity],
+            [Infinity, -Infinity],
+            [Infinity, -Infinity]
+      ];
+  
+  if ('mesh' in node) {
+    vertices = node.mesh.vertices.map(function (d) {
+      let transformed = vec3.create();
+      vec3.transformMat4(transformed, d.pos, node.accumulated);
+      return transformed;
+    });
+    totalExtent = extent(vertices);
+  }
+
+  if (node.children) {
+    extents = node.children.map(function(d) { return bbox(d); });
+    extents.push(totalExtent);
+    totalExtent = union(extents);
+  }
+
+  node.extent = totalExtent; // array of extents
+  node.aabb = makeNode(totalExtent); // (boudning box): node.mesh and node.accumulated
+  return totalExtent;
+}
+```
+
+In order to perform ray intersection tests on the bounding boxes, as well as render them using Tralie's existing mesh library, we can store an object on each node in the scene graph called `aabb`.
 
 This `aabb` object has the following two properties:
 
-- `aabb.mesh` is a unit cube that has been built using the provided box.off (how cheeky!)
+- `aabb.mesh` is a unit cube that has been built using the provided *box.off* file (how cheeky!)
 - 'aabb.accumulated` is the accumulated transform to place the unit cube in the correct world position
 
-A slight hack was made to the rendering code so that the bounding box has only its vertices and edges rendered.
+The rendering code was modified to allow for the bounding box to have only its vertices and edges rendered.
 
-N.B. One bug that had to be fixed was the situation in which the bounding box had zero thickness along any axis. Consider the square.off that is rendred as four vertices making up once face. If you attempt to get the face normal for this mesh by treating it as a cube, you will get a sequence of 4 vertices that have experienced scaling such that they coincide (e.g., v1 = v3, v2 = v4). This problem was addressed as follows.
+*N.B.* One issue to address is the situation in which the bounding box has **zero thickness** along any axis. Consider the *square.off* file that is rendered as four vertices making up once face. If you attempt to get the 6 *face normals* for this mesh by treating it as a cube, you will get a sequence of 4 vertices that have experienced scaling such that they coincide (e.g., v1 = v3, v2 = v4). This problem was addressed as follows:
 
 ```js
-
 // return aabb mesh for this extent
 export default function(extent) {
   var c, X, Y, Z,
@@ -229,12 +282,6 @@ export default function(extent) {
 
   return node;
 }
-
 ```
 
-
 # Notes
-
-- The impulse responses are currently placed in a single nearest bin without any type of interpolation.
-- Added "p" field to *.scn* files; the value is used in simulating radial energy spreading. Lower values result in less attenuation.
-- "Playing" the impulse response by clicking the button in the GUI results in an error.
