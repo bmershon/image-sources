@@ -6,34 +6,18 @@ The assignment is concerned with introducing undergraduates to acoustic simulati
 
 The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/COMPSCI290/Assignments/Group1_ImageSources/spec.html).
 
-*Second-order reflections in a simple scene graph*
-
-![Second-order reflections](images/boxes-order-2.png)
-
-*Third-order reflections in the same scene graph*
-
-![Third-order reflections](images/boxes-order-3.png)
-
-*First Order image sources generated from the sphere's mesh*
-
-![image sources genenerated recursively from meshes in the scene](images/sphere-images.png)
-
-
-*First Order reflections with source and receiver inside a spherical mesh.*
-
-![First-order reflections with high polygon count](images/sphere-order-1.png)
-
-
 # Quickstart
+
+View the full running demo [here](http(s)://bmershon.github.io/image-sources).
 
 The student's task is primarily concerned with adding functionality to the scenegraph, including the ability to:
 
 - Generage image sources through reflections of a specified order
 - Gernate paths from source to receiver
-- Generate an impulse response based on the order-n refleciton paths that have been generated
+- Generate an impulse response based on the order-n reflection paths that have been generated
 - Process a given audio file and perform convolution with the constructed impulse response
 
-All this extra functionality is exposed as an extension that adds functions to `scene` object. The scene object holds all material objects in the scene, the cameras, the source, the receiver, and the reflected image sources and traced paths. The files in the *src* folder are compiled (concatenated appropriately) to form a single global `image_sources` object with one method called `extend(scene)` that takes in the sceneograph object and adds new methods to it. Given a scene, one adds the funtionality by calling:
+All this extra functionality is exposed as an extension that adds functions to `scene` object. The scene object holds all material objects in the scene, the cameras, the source, the receiver, and the reflected image sources and traced paths, and has functions which mutate its state. The files in the *src* folder are compiled (concatenated appropriately) to form a single global `image_sources` object with one method called `extend(scene)` that takes in the scene graph object and adds new methods to it. Given a scene, one adds the funtionality by calling:
 
 ```js
 image_sources.extend(scene);
@@ -59,19 +43,26 @@ This command runs a script that looks at *index.js* and follows all the `import`
 
 # Assignment Tasks
 
-The following tasks have been implemented in the *src* directory:
+## Generate image sources through reflections of a specified order
 
-- [X] Generage image sources through reflections of a specified order
-- [X] Implement rayIntersectPolygon and rayIntersect Faces using existing `visitChildren` method
-- [X] Gernate paths from source to receiver for all order-n reflections
-- [X] Generate an impulse response based on the order-n reflection paths that have been generated
-- [ ] *Use Gaussian interpolation to bin impulse responses.*
-- [ ] Generate cityscapes (automatically) to test large scale scenes (*Units are in meters*)
-- [ ] **Implement transmission through surfaces**
-- [ ] **Support Binaural simulation**
-- [ ] Support bounding box tests to speed up culling of faces during ray tracing step
-- [ ] Attempt to build a "whisper chamber"
-- [ ] Test some dank tunes in a "club" and simulate transmission of lower frequencies to the "bathroom"
+![Order-1 reflections from a sphere](images/sphere-images-order-1.png)
+
+## Path Extraction
+
+![Extract Paths](images/boxes-reflections-order-4.png)
+
+
+## Impulse Response
+
+A campus quad scene with a small box to represent a human for scale (height 1.764 meters). Third order reflections are drawn for a scene with hierarchical rotations (all children rotated by 45 degrees under a "dummy node").
+
+![Scene](images/campus-quad-order-3.png)
+
+
+A portion of the graph of the inpulse reponse. We note the direct line-of-sight reponse cocurs around at 106 milliseconds and the next impulse occurs at around 132 milliseconds.
+
+![Impulse Response](images/campus-quad-impulse-reponse.png)
+
 
 # Notes
 
