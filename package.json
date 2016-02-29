@@ -16,9 +16,8 @@
   },
   "scripts": {
     "pretest": "mkdir -p build && node -e 'process.stdout.write(\"var version = \\\"\" + require(\"./package.json\").version + \"\\\"; export * from \\\"../index\\\"; export {version};\");' > build/bundle.js && rollup -f umd -u image-sources -n image_sources -o build/image-sources.js -- build/bundle.js",
-    "test": "faucet `find test -name '*-test.js'`",
     "submit": "npm run pretest && cat build/image-sources.js > main/image-sources.js",
-    "prepublish": "npm run test && uglifyjs build/image-sources.js -c -m -o build/scene-extension.min.js && rm -f build/image-sources.zip && zip -j build/image-sources.zip -- LICENSE README.md build/image-sources.js build/image-sources.min.js"
+    "prepublish": "uglifyjs build/image-sources.js -c -m -o build/scene-extension.min.js && rm -f build/image-sources.zip && zip -j build/image-sources.zip -- LICENSE README.md build/image-sources.js build/image-sources.min.js"
   },
   "devDependencies": {
     "d3": "3.5.6^"
