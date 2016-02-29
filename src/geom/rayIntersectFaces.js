@@ -1,5 +1,6 @@
 import visitChildren from "../scene/visitChildren";
 import rayIntersectPolygon from "./rayIntersectPolygon";
+import rayIntersectAABB from "./rayIntersectAABB";
 
 export default function rayIntersectFaces(r, v, subtree, excludeFace) {
   var t = Infinity;
@@ -9,7 +10,9 @@ export default function rayIntersectFaces(r, v, subtree, excludeFace) {
   visitChildren(subtree, function(parent, child) {
     if ('mesh' in child) {
 
-      //if(!intersectAABB(r, v, child.extent)) return;
+      // perform axis aligned bounding box test
+      // child.aabb is an object with a cube mesh and accumulated transform
+      if('aabb' in child && !rayIntersectAABB(r, v, child.aabb)) return;
 
       var mesh = child.mesh;
       for (let f = 0; f < mesh.faces.length; f++) {
@@ -17,7 +20,7 @@ export default function rayIntersectFaces(r, v, subtree, excludeFace) {
         if (face == excludeFace) continue;
 
         let polygon = face.getVerticesPos().map(function (d) {
-          let transformed = mat4.create();
+          let transformed = vec3.create();
           vec3.transformMat4(transformed, d, child.accumulated);
           return transformed;
         });

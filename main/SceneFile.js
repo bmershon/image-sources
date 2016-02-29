@@ -206,7 +206,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     if ('aabb' in node && !('imsources' in node)) {
       bboxMatrix = mat4.create();
       mat4.mul(bboxMatrix, glcanvas.camera.getMVMatrix(), node.aabb.accumulated);
-      node.aabb.mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, bboxMatrix, glcanvas.ambientColor, glcanvas.light1Pos, glcanvas.light2Pos, glcanvas.lightColor, true, glcanvas.drawEdges, true, COLOR_SHADING);
+      node.aabb.mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, bboxMatrix, vec3.fromValues(0, 0, 0), glcanvas.light1Pos, glcanvas.light2Pos, glcanvas.lightColor, true, glcanvas.drawEdges, true, COLOR_SHADING);
     }
     if ('children' in node) {
       for (var i = 0; i < node.children.length; i++) {
@@ -410,6 +410,8 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     if(scene.imsources.length <= 1) return;
 
     scene.computeBoundingBoxes();
+    console.log("Computing Bounding Boxes");
+
     console.log("Extracting paths source to receiver");
     glcanvas.scene.extractPaths();
     //Fill in buffers for path drawer

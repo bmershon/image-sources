@@ -20,7 +20,7 @@ export default function rayIntersectPolygon(r, u, polygon) {
   // gives distance to intersection
   v = vec3.clone(u);
   vec3.normalize(v, v);
-  norm = getFaceNormal(polygon);
+  norm = getFaceNormal(polygon.slice(0, 3));
   vec3.normalize(norm, norm);
   vec3.sub(r2p, p, r);
   

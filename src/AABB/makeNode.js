@@ -1,6 +1,7 @@
 // return aabb mesh for this extent
 export default function(extent) {
   var c, X, Y, Z,
+      epsilon = 1e-6, // minimum scaling
       m = mat4.create(),
       lines =  ["COFF",
                 "8 6 0",
@@ -27,9 +28,9 @@ export default function(extent) {
         (extent[1][0] + extent[1][1])/2,
         (extent[2][0] + extent[2][1])/2];
 
-  X = extent[0][1] - extent[0][0];
-  Y = extent[1][1] - extent[1][0];
-  Z = extent[2][1] - extent[2][0];
+  X = Math.max(extent[0][1] - extent[0][0], epsilon);
+  Y = Math.max(extent[1][1] - extent[1][0], epsilon);
+  Z = Math.max(extent[2][1] - extent[2][0], epsilon);
 
 
   node.accumulated = [ X, 0, 0, c[0],

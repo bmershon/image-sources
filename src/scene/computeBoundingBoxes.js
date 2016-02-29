@@ -21,7 +21,7 @@ function bbox(node) {
   
   if ('mesh' in node) {
     vertices = node.mesh.vertices.map(function (d) {
-      let transformed = mat4.create();
+      let transformed = vec3.create();
       vec3.transformMat4(transformed, d.pos, node.accumulated);
       return transformed;
     });

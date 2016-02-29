@@ -65,7 +65,7 @@
     // gives distance to intersection
     v = vec3.clone(u);
     vec3.normalize(v, v);
-    norm = getFaceNormal(polygon);
+    norm = getFaceNormal(polygon.slice(0, 3));
     vec3.normalize(norm, norm);
     vec3.sub(r2p, p, r);
     
@@ -88,6 +88,26 @@
     return (inDelta(sum, area, 1e-4)) ? {t: t, p: q} : null;  
   }
 
+  // perform naive ray intersection with AABB 
+  // using intersections with each of the 6 polygons in the mesh
+  function rayInserectAABB(r, v, bbox) {
+    var mesh = bbox.mesh; // unit cube
+    for (let f = 0; f < 6; f++) {
+      let face = mesh.faces[f];
+
+      let polygon = face.getVerticesPos().map(function (d) {
+        let transformed = vec3.create();
+        vec3.transformMat4(transformed, d, bbox.accumulated);
+        return transformed;
+      });
+
+      var soln = rayIntersectPolygon(r, v, polygon);
+      if (soln !== null) return true;
+    }
+
+    return false;
+  }
+
   function rayIntersectFaces(r, v, subtree, excludeFace) {
     var t = Infinity;
     var p = null;
@@ -96,7 +116,9 @@
     visitChildren(subtree, function(parent, child) {
       if ('mesh' in child) {
 
-        //if(!intersectAABB(r, v, child.extent)) return;
+        // perform axis aligned bounding box test
+        // child.aabb is an object with a cube mesh and accumulated transform
+        if('aabb' in child && !rayInserectAABB(r, v, child.aabb)) return;
 
         var mesh = child.mesh;
         for (let f = 0; f < mesh.faces.length; f++) {
@@ -104,7 +126,7 @@
           if (face == excludeFace) continue;
 
           let polygon = face.getVerticesPos().map(function (d) {
-            let transformed = mat4.create();
+            let transformed = vec3.create();
             vec3.transformMat4(transformed, d, child.accumulated);
             return transformed;
           });
@@ -337,6 +359,7 @@
   // return aabb mesh for this extent
   function makeNode(extent) {
     var c, X, Y, Z,
+        epsilon = 1e-6, // minimum scaling
         m = mat4.create(),
         lines =  ["COFF",
                   "8 6 0",
@@ -363,9 +386,9 @@
           (extent[1][0] + extent[1][1])/2,
           (extent[2][0] + extent[2][1])/2];
 
-    X = extent[0][1] - extent[0][0];
-    Y = extent[1][1] - extent[1][0];
-    Z = extent[2][1] - extent[2][0];
+    X = Math.max(extent[0][1] - extent[0][0], epsilon);
+    Y = Math.max(extent[1][1] - extent[1][0], epsilon);
+    Z = Math.max(extent[2][1] - extent[2][0], epsilon);
 
 
     node.accumulated = [ X, 0, 0, c[0],
@@ -401,7 +424,7 @@
     
     if ('mesh' in node) {
       vertices = node.mesh.vertices.map(function (d) {
-        let transformed = mat4.create();
+        let transformed = vec3.create();
         vec3.transformMat4(transformed, d.pos, node.accumulated);
         return transformed;
       });
