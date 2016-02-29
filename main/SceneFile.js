@@ -132,7 +132,7 @@ function drawBeacon(glcanvas, pMatrix, mvMatrix, camera, mesh, color) {
   mat4.translate(m, m, camera.pos);
   mat4.scale(m, m, vec3.fromValues(BEACON_SIZE, BEACON_SIZE, BEACON_SIZE));
   mat4.mul(m, mvMatrix, m);
-  mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, m, color, camera.pos, [0, 0, 0], color, false, false, false, COLOR_SHADING);
+  mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, m, color, camera.pos, [0, 0, 0], color, false, false, false, true, COLOR_SHADING);
 }
 
 //Update the beacon positions on the web site
@@ -201,12 +201,12 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     mat4.mul(mvMatrix, matrixIn, node.transform);
 
     if ('mesh' in node) {
-      node.mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, mvMatrix, glcanvas.ambientColor, glcanvas.light1Pos, glcanvas.light2Pos, glcanvas.lightColor, false, glcanvas.drawEdges, false, COLOR_SHADING);
+      node.mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, mvMatrix, glcanvas.ambientColor, glcanvas.light1Pos, glcanvas.light2Pos, glcanvas.lightColor, false, glcanvas.drawEdges, false, true, COLOR_SHADING);
     }
     if ('aabb' in node && !('imsources' in node)) {
       bboxMatrix = mat4.create();
       mat4.mul(bboxMatrix, glcanvas.camera.getMVMatrix(), node.aabb.accumulated);
-      node.aabb.mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, bboxMatrix, vec3.fromValues(0, 0, 0), glcanvas.light1Pos, glcanvas.light2Pos, glcanvas.lightColor, true, glcanvas.drawEdges, true, COLOR_SHADING);
+      node.aabb.mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, bboxMatrix, vec3.fromValues(0, 0, 0), glcanvas.light1Pos, glcanvas.light2Pos, glcanvas.lightColor, false, glcanvas.drawEdges, true, false, COLOR_SHADING);
     }
     if ('children' in node) {
       for (var i = 0; i < node.children.length; i++) {

@@ -774,7 +774,7 @@ function PolyMesh() {
     //shaderType: The type of shading to use
     FLAT_SHADING = 0;
     COLOR_SHADING = 1;
-    this.render = function(gl, shaders, pMatrix, mvMatrix, ambientColor, light1Pos, light2Pos, lightColor, doDrawNormals, doDrawEdges, doDrawPoints, shaderType) {
+    this.render = function(gl, shaders, pMatrix, mvMatrix, ambientColor, light1Pos, light2Pos, lightColor, doDrawNormals, doDrawEdges, doDrawPoints, doDrawSurface, shaderType) {
         /*console.log("this.vertexBuffer = " + this.vertexBuffer);
           console.log("this.normalBuffer = " + this.normalBuffer);
           console.log("this.indexBuffer = " + this.indexBuffer);
@@ -842,7 +842,9 @@ function PolyMesh() {
         }
         
         //Step 3: Render the mesh
-        gl.drawElements(gl.TRIANGLES, this.indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+        if(doDrawSurface) {
+            gl.drawElements(gl.TRIANGLES, this.indexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+        }
         
         //Step 4: Draw lines and points for vertices, edges, and normals if requested
         if (this.needsDisplayUpdate) {

@@ -112,7 +112,126 @@ A portion of the graph of the inpulse reponse. We note the direct line-of-sight 
 
 ## Bounding Boxes
 
-TODO
+![Bounding Boxes](images/bounding-boxes.png)
+
+We can speed up the path extraction algorithm by building **axis aligned bounding boxes (AABB)** around the meshes contained in a node.
+
+The following process was used to build bounding boxes.
+
+We can recursively build "extents" for each node, where an extent is an array of three tuples, where each tuple is the min/max pair for the X, Y, and Z axis, in that order. An extent can be found for a node with a mesh and no children by iterating through its vertices and finding the corresponding min and max axis values.
+
+The union of extents from a node's children along with that particular node's extent gives us an extent for any node in the tree.
+
+*src/aabb/extent.js*
+```js
+// input vec3 objects
+// returns array containing x, y, z bounds
+export default function extent(vertices) {
+  var n = vertices.length,
+      b = [
+            [Infinity, -Infinity],
+            [Infinity, -Infinity],
+            [Infinity, -Infinity]
+      ];
+
+  for (let i = 0; i < n; i++) {
+    let v = vertices[i];
+    for (let k = 0; k < 3; k++) {
+      b[k][0] = (v[k] < b[k][0]) ? v[k] : b[k][0];
+      b[k][1] = (v[k] > b[k][1]) ? v[k] : b[k][1];
+    }
+  }
+
+  return b;
+}
+```
+*src/aabb/union.js*
+
+```js
+// returns new extent that is the union of the provided extents
+export default function union(extents) {
+  var n = extents.length,
+      u = [
+            [Infinity, -Infinity],
+            [Infinity, -Infinity],
+            [Infinity, -Infinity]
+      ];
+
+  for (let i = 0; i < extents.length; i++) {
+    let e = extents[i];
+    for (let k = 0; k < 3; k++) {
+      u[k][0] = (e[k][0] < u[k][0]) ? e[k][0] : u[k][0];
+      u[k][1] = (e[k][1] > u[k][1]) ? e[k][1] : u[k][1];
+    }
+  }
+
+  return u;
+}
+```
+In order to perform ray intersection tests on the bounding boxes, as well as render them using Tralie's existing (under development) mesh library, we can store an object on each node in the scene graph called `aabb`.
+
+This `aabb` object has the following two properties:
+
+- `aabb.mesh` is a unit cube that has been built using the provided box.off (how cheeky!)
+- 'aabb.accumulated` is the accumulated transform to place the unit cube in the correct world position
+
+A slight hack was made to the rendering code so that the bounding box has only its vertices and edges rendered.
+
+N.B. One bug that had to be fixed was the situation in which the bounding box had zero thickness along any axis. Consider the square.off that is rendred as four vertices making up once face. If you attempt to get the face normal for this mesh by treating it as a cube, you will get a sequence of 4 vertices that have experienced scaling such that they coincide (e.g., v1 = v3, v2 = v4). This problem was addressed as follows.
+
+```js
+
+// return aabb mesh for this extent
+export default function(extent) {
+  var c, X, Y, Z,
+      epsilon = 1e-6, // minimum scaling
+      m = mat4.create(),
+      lines =  ["COFF",
+                "8 6 0",
+                "-0.5 -0.5 0.5 0.5 0.5 0.5",
+                "0.5 -0.5 0.5 0.5 0.5 0.5",
+                "-0.5 0.5 0.5 0.5 0.5 0.5",
+                "0.5 0.5 0.5 0.5 0.5 0.5",
+                "-0.5 -0.5 -0.5 0.5 0.5 0.5",
+                "0.5 -0.5 -0.5 0.5 0.5 0.5",
+                "-0.5 0.5 -0.5 0.5 0.5 0.5",
+                "0.5 0.5 -0.5 0.5 0.5 0.5",
+                "4 0 1 3 2 ",
+                "4 5 4 6 7 ",
+                "4 4 0 2 6 ",
+                "4 1 5 7 3 ",
+                "4 2 3 7 6 ",
+                "4 4 5 1 0 "],
+      node = {};
+
+  node.mesh = new PolyMesh();
+  node.mesh.loadFileFromLines(lines);
+
+  c =  [(extent[0][0] + extent[0][1])/2,
+        (extent[1][0] + extent[1][1])/2,
+        (extent[2][0] + extent[2][1])/2];
+
+  X = Math.max(extent[0][1] - extent[0][0], epsilon);
+  Y = Math.max(extent[1][1] - extent[1][0], epsilon);
+  Z = Math.max(extent[2][1] - extent[2][0], epsilon);
+
+
+  node.accumulated = [ X, 0, 0, c[0],
+                       0, Y, 0, c[1],
+                       0, 0, Z, c[2],
+                       0, 0, 0, 1  ]; 
+
+  for (var i = 0; i < 16; i++) {
+    m[i] = node.accumulated[i];
+  }
+  mat4.transpose(m, m);
+  node.accumulated = m;
+
+  return node;
+}
+
+```
+
 
 # Notes
 
