@@ -43,7 +43,7 @@ This command runs a script that looks at *index.js* and follows all the `import`
 
 # Assignment Tasks
 
-## Generate image sources through reflections of a specified order
+## Generating Image Sources
 
 ![Order-1 reflections from a sphere](images/sphere-images-order-1.png)
 
@@ -56,13 +56,63 @@ This command runs a script that looks at *index.js* and follows all the `import`
 
 A campus quad scene with a small box to represent a human for scale (height 1.764 meters). Third order reflections are drawn for a scene with hierarchical rotations (all children rotated by 45 degrees under a "dummy node").
 
-![Scene](images/campus-quad-order-3.png)
+*The .scn file*
 
+```json
+{
+  "name":"Campus Quad",
+  "receiver":[0, 1.764, 0],
+  "source":[-30, 1.764, 20],
+  "p": 0.4,
+  "children":[
+    {
+      "name": "campus",
+      "transform":[0.70710678118, 0, 0.70710678118, 0,
+                   0, 1, 0, 0,
+                   -0.70710678118, 0, 0.70710678118, 0,
+                   0, 0, 0, 1],
+      "children": [
+        {
+          "mesh":"meshes/square.off",
+          "color":[0.8, 0.8, 0.8],
+          "rcoeff":0.5,
+          "transform":[120, 0, 0, 0,
+                       0, 75, 0, 0,
+                       0, 0, 75, 0,
+                       0, 0, 0, 1]     
+        },
+
+        .
+        .
+        .
+
+
+        {
+          "mesh":"meshes/box.off",
+          "name": "human",
+          "color":[0, 0.5, 0.5],
+          "rcoeff":0.5,
+          "transform":[0.5, 0, 0, 0,
+                       0, 1.764, 0, 0.882,
+                       0, 0, 0.2, -10,
+                       0, 0, 0, 1]     
+        }
+      ]
+    }
+  ]
+}
+```
+
+![Scene](images/campus-quad-order-3.png)
 
 A portion of the graph of the inpulse reponse. We note the direct line-of-sight reponse cocurs around at 106 milliseconds and the next impulse occurs at around 132 milliseconds.
 
-![Impulse Response](images/campus-quad-impulse-reponse.png)
+![Impulse Response](images/campus-quad-impulse-response.png)
 
+
+## Bounding Boxes
+
+TODO
 
 # Notes
 
