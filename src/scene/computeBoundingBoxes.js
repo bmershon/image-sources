@@ -1,10 +1,12 @@
-import extent from "../geom/extent";
-import union from "../geom/union";
+import extent from "../aabb/extent";
+import union from "../aabb/union";
+import {default as makeNode} from "../aabb/makeNode";
 
 // adding accumulated transforms to all children in scenograph
 
 export default function computeBoundingBoxes() {
   var scene = this;
+  if ('extent' in scene) return; // compute once
   bbox(scene);
 }
 
@@ -32,6 +34,7 @@ function bbox(node) {
     totalExtent = union(extents);
   }
 
-  node.extent = totalExtent;
+  node.extent = totalExtent; // array of extents
+  node.aabb = makeNode(totalExtent); // (boudning box): node.mesh and node.accumulated
   return totalExtent;
 }

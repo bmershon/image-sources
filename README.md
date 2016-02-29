@@ -2,7 +2,7 @@
 
 This assignment was completed as part of Chris Tralie's *excellent* 3D geometry class (CS/Math 290) taught at Duke University during Spring 2016.
 
-The assignment is concerned with introducing undergraduates to acoustic simulations. 3D transformations are used to simulate "echos" in simple scene graphs using webGL. The assignment builds on top of Tralie's *in progress* 3D geometry framework, which is primarily designed for teaching students about geometry operations on meshes. 
+The assignment is concerned with introducing undergraduates to acoustic simulations. 3D transformations are used to simulate "echos" in simple scene graphs using webGL. The assignment builds on top of Tralie's *in progress* 3D geometry framework, which is primarily designed for teaching students about geometry operations on meshes. The API for that framework will be changed substantially in the future. As such, this assignment makes use of an early protoype of Chris Tralie's mesh library.
 
 The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/COMPSCI290/Assignments/Group1_ImageSources/spec.html).
 
@@ -56,9 +56,11 @@ This command runs a script that looks at *index.js* and follows all the `import`
 
 A campus quad scene with a small box to represent a human for scale (height 1.764 meters). Third order reflections are drawn for a scene with hierarchical rotations (all children rotated by 45 degrees under a "dummy node").
 
+![Scene](images/campus-quad-order-3.png)
+
 *The .scn file*
 
-```json
+```
 {
   "name":"Campus Quad",
   "receiver":[0, 1.764, 0],
@@ -103,9 +105,7 @@ A campus quad scene with a small box to represent a human for scale (height 1.76
 }
 ```
 
-![Scene](images/campus-quad-order-3.png)
-
-A portion of the graph of the inpulse reponse. We note the direct line-of-sight reponse cocurs around at 106 milliseconds and the next impulse occurs at around 132 milliseconds.
+A portion of the graph of the inpulse reponse. We note the direct line-of-sight reponse occurs around at 106 milliseconds and the next impulse occurs at around 132 milliseconds.
 
 ![Impulse Response](images/campus-quad-impulse-response.png)
 

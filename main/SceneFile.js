@@ -39,9 +39,9 @@ function parseNode(node) {
       arrayOfLines = data.match(/[^\r\n]+/g);
       node.mesh.loadFileFromLines(arrayOfLines);
       if ('color' in node) {
-      for (var i = 0; i < node.mesh.vertices.length; i++) {
-        node.mesh.vertices[i].color = node.color;
-      }
+        for (var i = 0; i < node.mesh.vertices.length; i++) {
+          node.mesh.vertices[i].color = node.color;
+        }
       }
     });        
   }
@@ -195,10 +195,18 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   //Step 1: Setup repaint function
   /////////////////////////////////////////////////////
   glcanvas.repaintRecurse = function(node, pMatrix, matrixIn) {
-    var mvMatrix = mat4.create();
+    var mvMatrix, bboxMatrix;
+
+    mvMatrix = mat4.create();
     mat4.mul(mvMatrix, matrixIn, node.transform);
+
     if ('mesh' in node) {
       node.mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, mvMatrix, glcanvas.ambientColor, glcanvas.light1Pos, glcanvas.light2Pos, glcanvas.lightColor, false, glcanvas.drawEdges, false, COLOR_SHADING);
+    }
+    if ('aabb' in node && !('imsources' in node)) {
+      bboxMatrix = mat4.create();
+      mat4.mul(bboxMatrix, glcanvas.camera.getMVMatrix(), node.aabb.accumulated);
+      node.aabb.mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, bboxMatrix, glcanvas.ambientColor, glcanvas.light1Pos, glcanvas.light2Pos, glcanvas.lightColor, true, glcanvas.drawEdges, true, COLOR_SHADING);
     }
     if ('children' in node) {
       for (var i = 0; i < node.children.length; i++) {
@@ -399,6 +407,8 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   }
   
   glcanvas.extractPaths = function() {
+    if(scene.imsources.length <= 1) return;
+
     scene.computeBoundingBoxes();
     console.log("Extracting paths source to receiver");
     glcanvas.scene.extractPaths();

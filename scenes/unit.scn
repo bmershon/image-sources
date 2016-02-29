@@ -1,0 +1,16 @@
+{
+    "name":"boxes",
+    "receiver":[5, 4, 0],
+    "source":[-5, 1.5, 0], 
+    "p": 0.3,
+    "children":[
+        {
+            "mesh":"meshes/box.off",
+            "rcoeff":0.5,
+            "transform":[1, 0, 0, 1,
+                         0, 1, 0, 1,
+                         0, 0, 1, 1,
+                         0, 0, 0, 1]     
+        }
+    ]
+}

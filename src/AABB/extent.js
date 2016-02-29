@@ -1,8 +1,7 @@
 // input vec3 objects
 // returns array containing x, y, z bounds
 export default function extent(vertices) {
-  var scene = this,
-      n = vertices.length,
+  var n = vertices.length,
       b = [
             [Infinity, -Infinity],
             [Infinity, -Infinity],
