@@ -2,6 +2,8 @@
 
 ![Brooks Statues on the Campus Lawn](images/campus-quad-brooks.png)
 
+*Aerial view, 1st order reflections, with bounding boxes shown*
+![Brooks Statues on the Campus Lawn Aerial](images/campus-quad-brooks-aerial.png)
 
 This assignment was completed as part of 3D Digital Geometry (CS/Math 290) at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
