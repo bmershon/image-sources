@@ -182,7 +182,7 @@ export default function union(extents) {
 }
 ```
 
-The above two functions are used in a recursive function to build up the extents and bounding boxes (actual PolyMesh object) in this beautiful function:
+The above two functions are used to build up the extents and bounding boxes (actual PolyMesh object) in this beautiful function:
 
 ```js
 import extent from "../aabb/extent";
