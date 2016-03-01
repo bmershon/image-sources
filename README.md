@@ -11,7 +11,7 @@ The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/
 
 # Quickstart
 
-View the full running demo [here](http(s)://bmershon.github.io/image-sources).
+View the full running demo [here](https://bmershon.github.io/image-sources).
 
 The student's task is primarily concerned with adding functionality to the scenegraph, including the ability to:
 
