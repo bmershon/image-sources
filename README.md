@@ -1,5 +1,8 @@
 # Image Sources (Math 290)
 
+![Brooks Statues on the Campus Lawn](images/campus-quad-brooks.png)
+
+
 This assignment was completed as part of 3D Digital Geometry (CS/Math 290) at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
 3D transformations are used to simulate "echos" resulting from specular reflections in simple scene graphs using webGL. The assignment builds on top of Tralie's mesh library that is currently under development. The API for that framework will be changed substantially in the near future. As such, this assignment makes use of an early protoype and plays fast and loose with the rendering business. If you go into the *libs* folder, things get *weird*.
@@ -285,3 +288,5 @@ export default function(extent) {
 ```
 
 # Notes
+
+Sometimes there are errors in calculating **normal faces**. I've tried to address this problem with some **numerical precision** "shims". Naturally, without having gone through rigorous unit-testing for this assignment, I'm sure there are lots of cases that break the code that I have not yet found.

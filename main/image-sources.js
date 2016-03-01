@@ -359,7 +359,7 @@
   // return aabb mesh for this extent
   function makeNode(extent) {
     var c, X, Y, Z,
-        epsilon = 1e-6, // minimum scaling
+        epsilon = 1e-4, // minimum scaling
         m = mat4.create(),
         lines =  ["COFF",
                   "8 6 0",
@@ -386,15 +386,15 @@
           (extent[1][0] + extent[1][1])/2,
           (extent[2][0] + extent[2][1])/2];
 
-    X = Math.max(extent[0][1] - extent[0][0], epsilon);
-    Y = Math.max(extent[1][1] - extent[1][0], epsilon);
-    Z = Math.max(extent[2][1] - extent[2][0], epsilon);
+    X = Math.max(Math.abs(extent[0][1] - extent[0][0]), epsilon);
+    Y = Math.max(Math.abs(extent[1][1] - extent[1][0]), epsilon);
+    Z = Math.max(Math.abs(extent[2][1] - extent[2][0]), epsilon);
 
 
-    node.accumulated = [ X, 0, 0, c[0],
-                         0, Y, 0, c[1],
-                         0, 0, Z, c[2],
-                         0, 0, 0, 1  ]; 
+    node.accumulated = [X, 0, 0, c[0],
+                        0, Y, 0, c[1],
+                        0, 0, Z, c[2],
+                        0, 0, 0, 1  ]; 
 
     for (var i = 0; i < 16; i++) {
       m[i] = node.accumulated[i];

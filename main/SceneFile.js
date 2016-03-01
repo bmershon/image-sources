@@ -275,6 +275,8 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
       requestAnimFrame(glcanvas.repaint);
     }
   }
+
+  requestAnimFrame(glcanvas.repaint);
   
   /////////////////////////////////////////////////////////////////
   //Step 2: Setup mouse and keyboard callbacks for the camera
