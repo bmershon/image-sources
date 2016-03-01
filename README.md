@@ -51,7 +51,7 @@ This last command runs a script that looks at *index.js* and follows all the `im
 
 ## Generating Image Sources
 
-*A spherical mesh and first-order reflections from the source (off center, inside the sphere).*
+*A spherical mesh and second-order reflections from the source (off center, inside the sphere).*
 
 ![Order-1 reflections from a sphere](images/sphere-images-order-1.png)
 
