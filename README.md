@@ -1,9 +1,9 @@
 # Image Sources (Math 290)
 
-![Brooks Statues on the Campus Lawn](images/campus-quad-brooks.png)
+![Brooks Statues on the Blockington Campus Quad](images/campus-quad-brooks.png)
 
-*Aerial view, 1st order reflections, with bounding boxes shown*
-![Brooks Statues on the Campus Lawn Aerial](images/campus-quad-brooks-aerial.png)
+*Aerial view of Blockington Campus. First-order reflections with bounding boxes shown.*
+![B-R-O-O-K-S statue on the Blockington Campus Quad (aerial)](images/campus-quad-brooks-aerial.png)
 
 This assignment was completed as part of 3D Digital Geometry (CS/Math 290) at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
@@ -51,7 +51,7 @@ This last command runs a script that looks at *index.js* and follows all the `im
 
 ## Generating Image Sources
 
-*A spherical mesh and second-order reflections from the source (off center, inside the sphere).*
+*A spherical mesh and first-order reflections from the source (source outside sphere).*
 
 ![Order-1 reflections from a sphere](images/sphere-images-order-1.png)
 
@@ -289,4 +289,4 @@ export default function(extent) {
 
 # Notes
 
-Sometimes there are errors in calculating **normal faces**. I've tried to address this problem with some **numerical precision** "shims". Naturally, without having gone through rigorous unit-testing for this assignment, I'm sure there are lots of cases that break the code that I have not yet found.
+Sometimes there are errors in calculating **normal faces**. I've tried to address this problem with some **numerical precision** "shims". This error was introduced with the addition of bounding box calculations and likely results from a bug in the AABB mesh that is created and used for testing intersections.
