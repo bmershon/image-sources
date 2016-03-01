@@ -13,8 +13,6 @@ The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/
 
 # Quickstart
 
-View the full running demo [here](https://bmershon.github.io/image-sources).
-
 The student's task is primarily concerned with adding functionality to the scenegraph, including the ability to:
 
 - Generate image sources through reflections of a specified order (e.g. two bounces requires reflections of reflections)
