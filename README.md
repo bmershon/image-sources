@@ -1,6 +1,6 @@
 # Image Sources (Math 290)
 
-[<img src="images/campus-quad-brooks.png" alt="linear" width="100%" height="240">](images/campus-quad-brooks.png)
+[<img src="images/campus-quad-brooks.png" alt="linear" width="600px">](images/campus-quad-brooks.png)
 
 ![Brooks Statues on the Blockington Campus Quad](images/campus-quad-brooks.png)
 
