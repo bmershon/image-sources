@@ -1,7 +1,5 @@
 # Image Sources (Math 290)
 
-[<img src="images/campus-quad-brooks.png" alt="linear" width="600px">](images/campus-quad-brooks.png)
-
 ![Brooks Statues on the Blockington Campus Quad](images/campus-quad-brooks.png)
 
 *Aerial view of Blockington Campus. First-order reflections with bounding boxes shown.*
