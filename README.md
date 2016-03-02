@@ -1,29 +1,29 @@
-# Image Sources (Math 290)
+# Spectral Reflections for Acoustic Simulations (Math 290)
 
-![Brooks Statues on the Blockington Campus Quad](images/campus-quad-brooks.png)
+This assignment was completed as part of 3D Digital Geometry (CS/Math 290), taken at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
-*Aerial view of Blockington Campus. First-order reflections with bounding boxes shown.*
-![B-R-O-O-K-S statue on the Blockington Campus Quad (aerial)](images/campus-quad-brooks-aerial.png)
+3D geometry is used to simulate "echos" resulting from specular reflections in simple scene graphs using webGL. The assignment builds on top of Tralie's mesh library that is currently under development. The API for that framework will be changed substantially in the near future. This assignment makes use of an early protoype and plays fast and loose with the rendering business. If you go into the *libs* folder, things get *weird*. 
 
-This assignment was completed as part of 3D Digital Geometry (CS/Math 290) at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
-
-3D transformations are used to simulate "echos" resulting from specular reflections in simple scene graphs using webGL. The assignment builds on top of Tralie's mesh library that is currently under development. The API for that framework will be changed substantially in the near future. As such, this assignment makes use of an early protoype and plays fast and loose with the rendering business. If you go into the *libs* folder, things get *weird*.
+**This assignment is primarily concerned with the algorithms contained in the *src/* directory.**
 
 The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/COMPSCI290/Assignments/Group1_ImageSources/spec.html).
 
-# Quickstart
+*Aerial view of Blockington Campus. First-order reflections with bounding boxes shown.*
 
-The student's task is primarily concerned with adding functionality to the scenegraph, including the ability to:
+![B-R-O-O-K-S statue on the Blockington Campus Quad (aerial)](images/campus-quad-brooks-aerial.png)
+
+# Building from source
+
+The student's task is primarily concerned with adding functionality to the scene graph, including the ability to:
 
 - Generate image sources through reflections of a specified order (e.g. two bounces requires reflections of reflections)
 - Generate paths from source to receiver
 - Generate an impulse response based on the order-n reflection paths that have been generated
-- Add functionality, such as implementing bounding boxes to speed up raytracing
-- And much more!
+- Add bonus functionality, such as implementing bounding boxes to speed up raytracing, binaural responses, and much more!
 
-For my own organization, I exposed the functionality that is expected to be added to the `scene` object as an extension that monkey patches these functions during runtime. The scene object holds all material objects in the scene, the cameras, the source, the receiver, and the reflected image sources and traced paths. It also has functions which mutate its state by computing new image sources, new paths, and new impulse response. Additionally, it has some features that allow the scene to accumulate transforms and compute bounding boxes (once and for all, since objects don't move in this simulation).
+For my own organization, I exposed the functionality that is expected to be added to the `scene` object as an extension that *monkey patches* these functions onto the `scene` object at runtime. The scene object holds all material objects in the scene, the cameras, the source, the receiver, and the reflected image sources and traced paths. It also has functions which mutate its state by computing new image sources, new paths, and a new impulse response. Additionally, it has some features that allow the scene to accumulate transforms and compute bounding boxes as a preprocessing step. For this assignment, the world's objects are assumed to be stationary, except for the source, receiver, and external camera.
 
-The files in the *src* folder are compiled (concatenated appropriately) to form a single global `image_sources` object with one method called `extend(scene)` that takes in the scene graph object and adds new methods to it. Given a scene, one adds the functionality by calling:
+The files in the *src* folder are compiled (concatenated) to form a single global `image_sources` object with one method called `extend(scene)` that takes in the scene graph object and adds new methods to it. Given a scene, one adds the functionality by calling:
 
 ```js
 image_sources.extend(scene);
@@ -54,6 +54,15 @@ This last command runs a script that looks at *index.js* and follows all the `im
 *A spherical mesh and first-order reflections from the source (source outside sphere).*
 
 ![Order-1 reflections from a sphere](images/sphere-images-order-1.png)
+
+### Implementation
+
+Image sources for **order-n reflections** are generated by recursively visiting each mesh in the scene and generating a reflection of a source of order-(n-1) about the plane spanned by a face in a mesh. Low Polygon counts are used in the accoustic simulation, though higher polygon counts could be used for rendering of a low-res version of a mesh were provided for reflections and raytracing.
+
+To reflect across a face, we can:
+
+- Transform 
+
 
 ## Path Extraction
 
