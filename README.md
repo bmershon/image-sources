@@ -1,4 +1,4 @@
-# Image Sources (Acoustic Simulations)
+# Image Sources
 
 This assignment was completed as part of 3D Digital Geometry (CS/Math 290), taken at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
@@ -12,7 +12,7 @@ The full assignment webpage can be found [here](http://www.ctralie.com/Teaching/
 
 ![B-R-O-O-K-S statue on the Blockington Campus Quad (aerial)](images/campus-quad-brooks-aerial.png)
 
-# Building from source
+## Building from source
 
 The student's task is primarily concerned with adding functionality to the scene graph, including the ability to:
 
@@ -47,9 +47,9 @@ This last command runs a script that looks at *index.js* and follows all the `im
 
 *Using [Rollup](https://github.com/rollup/rollup) to build the image-sources functionality into a single global variable is an attempt to make the student's work in this assignment modular. One significant advantage of doing so is that dependencies and coupling within the student's implementation are made more explicit and easier to follow.*
 
-# Assignment Tasks
+## Assignment Tasks
 
-## Generating Image Sources
+### Generating Image Sources
 
 *A spherical mesh and first-order reflections from the source (source outside sphere).*
 
@@ -82,7 +82,7 @@ To reflect across a face, we can:
 - Project a vector from an image source to the arbitrary point *onto* the transformed normal.
 - Scale this projection by two and offset from the image source to get the reflection's position
 
-## Path Extraction
+### Path Extraction
 
 ![Extract Paths](images/boxes-reflections-order-4.png)
 
@@ -118,7 +118,7 @@ Paths are built by tracing back from a receiver and noting intersections with ap
     
 ```
 
-## Impulse Response
+### Impulse Response
 
 *A campus quad scene with a small box to represent a human for scale (height 1.764 meters). Third order reflections are drawn for a scene with hierarchical rotations (all children rotated by 45 degrees under a "dummy node").*
 
@@ -180,7 +180,7 @@ Currently, impulses are placed in the nearest sampling bin without linear interp
 ![Impulse Response](images/campus-quad-impulse-response.png)
 
 
-## Bounding Boxes
+### Bounding Boxes
 
 We can speed up the path extraction algorithm by building **axis aligned bounding boxes (AABB)** around the meshes contained in a node.
 
@@ -353,6 +353,6 @@ export default function(extent) {
 }
 ```
 
-# Notes
+## Notes
 
 Sometimes there are errors in calculating **normal faces**. I've tried to address this problem with some **numerical precision** "shims". This error was introduced with the addition of bounding box calculations and likely results from a bug in the AABB mesh that is created and used for testing intersections.
