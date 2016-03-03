@@ -9,7 +9,10 @@
   <script type="text/javascript" src="/libs/GLEAT/js/numeric-1.2.6.min.js"></script>
   <script type="text/javascript" src="/libs/GLEAT/js/jquery-1.11.1.min.js"></script>
   <!--D3 stuff!-->
-  <script src="node_modules/d3/d3.min.js"></script>
+  <script src="libs/d3-collection.v0.1.min.js"></script>
+  <script src="libs/d3-dispatch.v0.3.min.js"></script>
+  <script src="libs/d3-dsv.v0.2.min.js"></script>
+  <script src="libs/d3-request.min.js"></script>
   <!--Plot.ly!-->
   <script src="libs/plotly.min.js"></script>
   <!--DSP library!-->
@@ -184,6 +187,7 @@ g.subplot.xy > rect {
 
 <div class="center">
   <h2>Click to change position</h2>
+  <button type="button" id = "zoom" onclick="callZoomExtent()">Zoom Extent</button>
   <button class="source" type="button" id = "sourceButton" onclick="callViewFromSource()">Source</button>
   <button class="receiver" type="button" id = "receiverButton" onclick="callViewFromReceiver()">Receiver</button>
   <button class="external" type="button" id = "externalButton" onclick="callViewFromExternal()">External</button>
@@ -344,6 +348,10 @@ function callExtractPaths() {
 }
 function callComputeImpulseResponse() {
   glcanvas.computeImpulseResponse();
+}
+
+function callZoomExtent() {
+  glcanvas.zoomExtent();
 }
 ///////////////////////////////////////////
 //             Audio stuff               //

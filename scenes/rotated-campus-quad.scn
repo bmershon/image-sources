@@ -14,16 +14,16 @@
         {
           "mesh":"meshes/square.off",
           "color":[0.8, 0.8, 0.8],
-          "rcoeff":0.5,
+          "rcoeff":0.8,
           "transform":[120, 0, 0, 0,
-                       0, 75, 0, 0,
+                       0, 1, 0, 0,
                        0, 0, 75, 0,
                        0, 0, 0, 1]     
         },
         {
           "mesh":"meshes/box.off",
           "color":[0, 0.5, 0.5],
-          "rcoeff":0.5,
+          "rcoeff":0.8,
           "transform":[14, 0, 0, -20,
                        0, 10, 0, 5,
                        0, 0, 5, -20,
@@ -32,7 +32,7 @@
         {
           "mesh":"meshes/box.off",
           "color":[0, 0.5, 0.5],
-          "rcoeff":0.5,
+          "rcoeff":0.8,
           "transform":[12, 0, 0, 0,
                        0, 10, 0, 5,
                        0, 0, 5, -20,
@@ -41,7 +41,7 @@
         {
           "mesh":"meshes/box.off",
           "color":[0, 0.5, 0.5],
-          "rcoeff":0.5,
+          "rcoeff":0.9,
           "transform":[15, 0, 0, 25,
                        0, 10, 0, 5,
                        0, 0, 5, -20,
@@ -50,7 +50,7 @@
         {
           "mesh":"meshes/box.off",
           "color":[0, 0.5, 0.5],
-          "rcoeff":0.5,
+          "rcoeff":0.95,
           "transform":[14, 0, 0, -20,
                        0, 10, 0, 5,
                        0, 0, 5, 20,
@@ -59,7 +59,7 @@
         {
           "mesh":"meshes/box.off",
           "color":[0, 0.5, 0.5],
-          "rcoeff":0.5,
+          "rcoeff":0.95,
           "transform":[12, 0, 0, 0,
                        0, 10, 0, 5,
                        0, 0, 5, 15,
@@ -68,7 +68,7 @@
         {
           "mesh":"meshes/box.off",
           "color":[0, 0.5, 0.5],
-          "rcoeff":0.5,
+          "rcoeff":0.95,
           "transform":[15, 0, 0, 25,
                        0, 10, 0, 5,
                        0, 0, 5, 20,
@@ -77,9 +77,9 @@
         {
           "mesh":"meshes/box.off",
           "color":[0, 0.5, 0.5],
-          "rcoeff":0.5,
+          "rcoeff":0.95,
           "transform":[10, 0, 0, 40,
-                       0, 15, 0, 5,
+                       0, 20, 0, 10,
                        0, 0, 10, 0,
                        0, 0, 0, 1]     
         },
@@ -87,7 +87,7 @@
           "mesh":"meshes/box.off",
           "name": "human",
           "color":[0, 0.5, 0.5],
-          "rcoeff":0.5,
+          "rcoeff":0.95,
           "transform":[0.5, 0, 0, 0,
                        0, 1.764, 0, 0.882,
                        0, 0, 0.2, -10,
@@ -103,7 +103,7 @@
       "children": [
         {
           "mesh":"meshes/B.off",
-          "rcoeff":0.8,
+          "rcoeff":0.75,
           "transform":[1, 0, 0, -40,
                        0, 1, 0, 0,
                        0, 0, 1, 0,
@@ -111,7 +111,7 @@
         },
         {
           "mesh":"meshes/R.off",
-          "rcoeff":0.8,
+          "rcoeff":0.9,
           "transform":[1, 0, 0, -30,
                        0, 1, 0, 0,
                        0, 0, 1, 0,

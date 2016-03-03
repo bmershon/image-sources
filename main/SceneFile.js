@@ -92,10 +92,8 @@ function setupScene(scene, glcanvas) {
   
   image_sources.extend(scene);
   
-  console.log("Accumulating transforms for all children");
-
   //Now that the scene has loaded, setup the glcanvas
-  SceneCanvas(glcanvas, 'GLEAT/DrawingUtils', 1280, 900, scene);
+  SceneCanvas(glcanvas, 'GLEAT/DrawingUtils', 1080, 600, scene);
   requestAnimFrame(glcanvas.repaint);
 }
 
@@ -135,19 +133,6 @@ function drawBeacon(glcanvas, pMatrix, mvMatrix, camera, mesh, color) {
   mesh.render(glcanvas.gl, glcanvas.shaders, pMatrix, m, color, camera.pos, [0, 0, 0], color, false, false, false, true, COLOR_SHADING);
 }
 
-//Update the beacon positions on the web site
-function vec3StrFixed(v, k) {
-  return "(" + v[0].toFixed(k) + ", " + v[1].toFixed(2) + ", " + v[2].toFixed(2) + ")";
-}
-function updateBeaconsPos() {
-  var sourcePosE = document.getElementById("sourcePos");
-  var receiverPosE = document.getElementById("receiverPos");
-  var externalPosE = document.getElementById("externalPos");
-  sourcePosE.innerHTML = "<font color = \"blue\">" + vec3StrFixed(glcanvas.scene.source.pos, 2) + "</font>";
-  receiverPosE.innerHTML = "<font color = \"red\">" + vec3StrFixed(glcanvas.scene.receiver.pos, 2) + "</font>";
-  externalPosE.innerHTML = "<font color = \"green\">" + vec3StrFixed(glcanvas.externalCam.pos, 2) + "</font>";
-}
-
 //A function that adds lots of fields to glcanvas for rendering the scene graph
 function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   console.log("Loaded in mesh hierarchy:");
@@ -181,7 +166,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   glcanvas.scene.receiver.pixHeight = pixHeight;
   glcanvas.externalCam = new FPSCamera(pixWidth, pixHeight, 0.75);
   glcanvas.externalCam.pos = vec3.fromValues(0, 1.5, 0);
-  glcanvas.walkspeed = 2.5;//How many meters per second
+  glcanvas.walkspeed = 10;//How many meters per second
   glcanvas.lastTime = (new Date()).getTime();
   glcanvas.movelr = 0;//Moving left/right
   glcanvas.movefb = 0;//Moving forward/backward
@@ -221,7 +206,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     glcanvas.gl.clear(glcanvas.gl.COLOR_BUFFER_BIT | glcanvas.gl.DEPTH_BUFFER_BIT);
     
     var pMatrix = mat4.create();
-    mat4.perspective(pMatrix, 45, glcanvas.gl.viewportWidth / glcanvas.gl.viewportHeight, 0.01, 100.0);
+    mat4.perspective(pMatrix, 45, glcanvas.gl.viewportWidth / glcanvas.gl.viewportHeight, 0.01, 1000.0);
     //First get the global modelview matrix based on the camera
     var mvMatrix = glcanvas.camera.getMVMatrix();
     //Then drawn the scene
@@ -402,17 +387,46 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
   }
   
   glcanvas.computeImageSources = function(order) {
-    scene.accumulateTransforms();
+    scene.accumulateTransforms()
+         .computeBoundingBoxes();
+
     console.log("Computing image sources of order " + order);
     glcanvas.scene.computeImageSources(order);
+    requestAnimFrame(glcanvas.repaint);
+  }
+
+  // added feature
+  glcanvas.zoomExtent = function() {
+    var extent,
+        c,
+        corner,
+        centroid,
+        rotateRight,
+        rotateDown,
+        direction = vec3.create();
+    // compute if not already computed
+    scene.accumulateTransforms()
+         .computeBoundingBoxes();
+
+    extent = glcanvas.scene.extent;
+
+    console.log("scene bbox:", extent);
+
+    c = [(extent[0][0] + extent[0][1])/2,
+         (extent[1][0] + extent[1][1])/2,
+         (extent[2][0] + extent[2][1])/2];
+
+    corner = vec3.fromValues(extent[0][0], extent[1][1], extent[2][1]);
+    centroid = vec3.fromValues(c[0], c[1], c[2]);
+    vec3.sub(direction, centroid, corner); // look at center of bbox
+
+    this.camera.pos = corner; // corner of bbox
+    this.camera.look(direction);
     requestAnimFrame(glcanvas.repaint);
   }
   
   glcanvas.extractPaths = function() {
     if(scene.imsources.length <= 1) return;
-
-    scene.computeBoundingBoxes();
-    console.log("Computing Bounding Boxes");
 
     console.log("Extracting paths source to receiver");
     glcanvas.scene.extractPaths();

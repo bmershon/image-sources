@@ -182,8 +182,36 @@ function FPSCamera(pixWidth, pixHeight, yfov) {
         vec3.scaleAndAdd(this.up, this.up, this.right, -dot);
         vec3.normalize(this.up, this.up);
     }
+
+    this.look = function(direction) {
+        var dir = vec3.clone(direction),
+            right = vec3.create(),
+            newUp = vec3.create(),
+            theta,
+            q = quat.create();
+
+        vec3.normalize(dir, dir);
+        this.up = vec3.fromValues(0, 1, 0);
+        vec3.cross(right, dir, this.up);
+        vec3.cross(newUp, this.right, dir);
+        this.up = newUp;
+
+        // q = quat.create();
+        // theta = angle(this.up, vec3.fromValues(0, 0, 0), dir);
+        // quat.setAxisAngle(q, this.right, Math.min(0, theta - Math.PI));
+        // vec3.transformQuat(this.up, this.up, q);
+    }
     
     this.outputString = function() {
         console.log(vec3.str(this.pos) + ": " + vec3.str(this.towards) + " x " + vec3.str(this.up));
+    }
+
+    function angle(a, b, c) {
+      var ab = vec3.create(),
+          ac = vec3.create();
+      ab = vec3.sub(ab, b, a);
+      ac = vec3.sub(ac, c, a);
+      var r = vec3.dot(ab, ac)/(vec3.length(ab)*vec3.length(ac));
+      return Math.acos(r);
     }
 }

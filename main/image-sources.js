@@ -23,6 +23,7 @@
   function accumulateTransforms() {
     var scene = this;
     accumulate(scene);
+    return this;
   }
 
   function accumulate(root) {
@@ -411,6 +412,7 @@
     var scene = this;
     if ('extent' in scene) return; // compute once
     bbox(scene);
+    return this;
   }
 
   function bbox(node) {

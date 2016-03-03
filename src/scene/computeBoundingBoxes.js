@@ -8,6 +8,7 @@ export default function computeBoundingBoxes() {
   var scene = this;
   if ('extent' in scene) return; // compute once
   bbox(scene);
+  return this;
 }
 
 function bbox(node) {

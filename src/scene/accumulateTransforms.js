@@ -5,6 +5,7 @@ import visitChildren from "./visitChildren";
 export default function accumulateTransforms() {
   var scene = this;
   accumulate(scene);
+  return this;
 }
 
 function accumulate(root) {
