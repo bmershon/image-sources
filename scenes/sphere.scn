@@ -5,13 +5,13 @@
   "p": 0.5,
   "children":[
     {
-        "mesh":"meshes/sphere.off",
-        "color":[0.8, 0.8, 0.8],
-        "rcoeff":0.5,
-        "transform":[1, 0, 0, 0,
-                     0, 1, 0, 0,
-                     0, 0, 1, 0,
-                     0, 0, 0, 1]     
+      "mesh":"meshes/sphere.off",
+      "color":[0.8, 0.8, 0.8],
+      "rcoeff":0.5,
+      "transform":[1, 0, 0, 0,
+                   0, 1, 0, 0,
+                   0, 0, 1, 0,
+                   0, 0, 0, 1]     
     }
   ]
 }

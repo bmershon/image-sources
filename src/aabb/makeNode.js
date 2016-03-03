@@ -32,7 +32,6 @@ export default function(extent) {
   Y = Math.max(Math.abs(extent[1][1] - extent[1][0]), epsilon);
   Z = Math.max(Math.abs(extent[2][1] - extent[2][0]), epsilon);
 
-
   node.accumulated = [X, 0, 0, c[0],
                       0, Y, 0, c[1],
                       0, 0, Z, c[2],

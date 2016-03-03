@@ -397,7 +397,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
 
   // added feature
   glcanvas.zoomExtent = function() {
-    var epsilon,
+    var epsilon = 1,
         extent,
         c,
         corner,
@@ -419,6 +419,7 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
     centroid = vec3.fromValues(c[0], c[1], c[2]);
     vec3.sub(direction, centroid, corner); // look at center of bbox
 
+    vec3.add(corner, corner, vec3.fromValues(epsilon, epsilon, epsilon));
     this.camera.pos = corner; // corner of bbox
     this.camera.look(direction);
     requestAnimFrame(glcanvas.repaint);

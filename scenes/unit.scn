@@ -1,5 +1,5 @@
 {
-  "name":"boxes",
+  "name":"unit",
   "receiver":[5, 4, 0],
   "source":[-5, 1.5, 0], 
   "p": 0.3,
