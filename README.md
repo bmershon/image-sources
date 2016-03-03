@@ -6,6 +6,14 @@ If you are not reading this on GitHub, please view the project at:
 
 https://github.com/bmershon/image-sources
 
+To start playing, start a server in the root directory and view *index.html*:
+
+```
+python -m SimpleHTTPServer 8000
+```
+
+===
+
 This assignment was completed as part of 3D Digital Geometry (CS/Math 290), taken at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
 Specular reflections in simple scene graphs are used to simulate the impulse response for a source and receiver in a 3D environment. WebGL is used to visualize scene objects, reflections, bounding boxes, and so on. The assignment builds on top of Chris Tralie's mesh library that is currently under development. The API for that framework will be changed substantially in the near future. This assignment makes use of an early protoype and plays fast and loose with the rendering business. If you go into the *libs* folder, things get *weird*. 
@@ -138,8 +146,6 @@ Paths are built by tracing back from a receiver and noting intersections with ap
 
 ######Implementation
 
-Currently, impulses are placed in the nearest sampling bin without linear interpolation, Gaussian interpolation, or any other efforts to smooth the response.
-
 *The .scn file for this impulse response*
 
 ```
@@ -194,6 +200,10 @@ The Impulse response is visualized as a lollipop graph, with time in millisecond
 ![Impulse Response](images/impulse-response.png)
 
 Listening to the *femalecountdown.ogg* file with high coefficients of reflection for the campus buildings certainly gives us a nice echo that can be easily discerned.
+
+###### Nitty Gritty
+
+Currently, impulses are placed in the nearest sampling bin without linear interpolation, Gaussian interpolation, or any other efforts to smooth the response.
 
 ### Bounding Boxes
 
@@ -420,3 +430,7 @@ The file *SceneFile.js* given to the student for this assignment was modified by
     requestAnimFrame(glcanvas.repaint);
   }
 ```
+
+###### Nitty Gritty
+
+Zoom-to-extent functionality can be improved by padding this bounding box positioning to avoid awkward positioning with respect to the given camera focal length and scene configuration.
