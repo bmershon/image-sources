@@ -94,7 +94,7 @@ To reflect across a face, we
 
 ### Path Extraction
 
-*Fourth order reflections for the floor, ceiling, box scene.*
+*Fourth-order reflections for the floor, ceiling, box scene.*
 
 ![Extract Paths](images/boxes-reflections-order-4.png)
 
@@ -132,7 +132,7 @@ Paths are built by tracing back from a receiver and noting intersections with ap
 
 ### Impulse Response
 
-*A campus quad scene with a small box to represent a human for scale (height 1.764 meters). Third order reflections are drawn for a scene with hierarchical rotations (the entire campus is rotated by 45 degrees).*
+*A campus quad scene with a small box to represent a human for scale (height 1.764 meters). Third order reflections are drawn for a scene with hierarchical rotations (the entire campus is rotated by 45 degrees). The bounding boxes around the three low level platforms allows many of the paths to avoid testing intersection with each of these objects: their bounding box lies below most of the paths.*
 
 ![Scene](images/campus-quad-order-2.png)
 
@@ -189,9 +189,11 @@ Currently, impulses are placed in the nearest sampling bin without linear interp
 
 The Impulse response is visualized as a lollipop graph, with time in milliseconds on the horizontal axis and the magnitude of the response on the vertical axis (0  to 1).
 
-*A portion of the graph of the impulse reponse. We note the direct line-of-sight reponse occurs around at 106 milliseconds and the next impulse occurs at around 132 milliseconds.*
+*The graph of the impulse reponse resulting from order-2 reflections, order-1 reflections, and line-of-site transmission.*
 
 ![Impulse Response](images/impulse-response.png)
+
+Listening to the *femalecountdown.ogg* file with high coefficients of reflection for the campus buildings certainly gives us a nice echo that can be easily discerned.
 
 ### Bounding Boxes
 
