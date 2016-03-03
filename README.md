@@ -2,6 +2,10 @@
 
 *All images and code may be reproduced with the original author's name*.
 
+If you are not reading this on GitHub, please view the project at:
+
+https://github.com/bmershon/image-sources
+
 This assignment was completed as part of 3D Digital Geometry (CS/Math 290), taken at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
 Specular reflections in simple scene graphs are used to simulate the impulse response for a source and receiver in a 3D environment. WebGL is used to visualize scene objects, reflections, bounding boxes, and so on. The assignment builds on top of Chris Tralie's mesh library that is currently under development. The API for that framework will be changed substantially in the near future. This assignment makes use of an early protoype and plays fast and loose with the rendering business. If you go into the *libs* folder, things get *weird*. 
@@ -360,6 +364,57 @@ export default function(extent) {
 }
 ```
 
-## Notes
+### Zoom to Extent
 
-Sometimes there are errors in calculating **normal faces**. I've tried to address this problem with some **numerical precision** "shims". This error was introduced with the addition of bounding box calculations and likely results from a bug in the AABB mesh that is created and used for testing intersections.
+The GUI has a button "Zoom Extent" which places the camera at a corner of the bounding box (with a small offset to avoid seeing your own beacon). The camera then faces toward the center of the entire scene's bounding box. This is achived by adding a function `look(direction)` to the FPSCamera class:
+
+*libs/GLEAT/Geometry/Camera3D.js*
+```js
+    this.look = function(direction) {
+        var dir = vec3.clone(direction),
+            right = vec3.create(),
+            newUp = vec3.create();
+
+        vec3.normalize(dir, dir);
+        this.up = vec3.fromValues(0, 1, 0);
+        vec3.cross(this.right, dir, this.up);
+        vec3.cross(newUp, this.right, dir);
+        this.up = newUp;
+    }
+```
+
+The file *SceneFile.js* given to the student for this assignment was modified by adding the following function:
+
+*main/SceneFile.js
+```js
+  // added feature
+  glcanvas.zoomExtent = function() {
+    var epsilon = 1,
+        extent,
+        c,
+        corner,
+        centroid,
+        rotateRight,
+        rotateDown,
+        direction = vec3.create();
+    // compute if not already computed
+    scene.accumulateTransforms()
+         .computeBoundingBoxes();
+         
+    // extent for the bbox computed for entire scene object
+    extent = glcanvas.scene.extent;
+
+    c = [(extent[0][0] + extent[0][1])/2,
+         (extent[1][0] + extent[1][1])/2,
+         (extent[2][0] + extent[2][1])/2];
+
+    corner = vec3.fromValues(extent[0][0], extent[1][1], extent[2][1]);
+    centroid = vec3.fromValues(c[0], c[1], c[2]);
+    vec3.sub(direction, centroid, corner); // look at center of bbox
+
+    vec3.add(corner, corner, vec3.fromValues(epsilon, epsilon, epsilon));
+    this.camera.pos = corner; // corner of bbox
+    this.camera.look(direction);
+    requestAnimFrame(glcanvas.repaint);
+  }
+```
