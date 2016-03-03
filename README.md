@@ -434,3 +434,7 @@ The file *SceneFile.js* given to the student for this assignment was modified by
 ###### Nitty Gritty
 
 Zoom-to-extent functionality can be improved by padding this bounding box positioning to avoid awkward positioning with respect to the given camera focal length and scene configuration.
+
+### GUI Enchancement
+
+A few hours were dedicated to making the GUI more better while adhering closely to the original functionality of the boilerplate assignment. The enhancements were made with pedagogy in mind: the interface is tailored to the student who implements the code, rather than a user who is only interested in running the simulation.
