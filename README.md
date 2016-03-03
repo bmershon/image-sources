@@ -439,4 +439,4 @@ Zoom-to-extent functionality can be improved by padding this bounding box positi
 
 ### GUI Enchancement
 
-A few hours were dedicated to making the GUI more better while adhering closely to the original functionality of the boilerplate assignment. The enhancements were made with pedagogy in mind: the interface is tailored to the student who implements the code, rather than a user who is only interested in running the simulation.
+A few hours were dedicated to making the GUI [more better](https://twitter.com/toddlindeman) while adhering closely to the original functionality of the boilerplate assignment. The enhancements were made with pedagogy in mind: the interface is tailored to the student who implements the code, rather than a user who is only interested in running the simulation.
