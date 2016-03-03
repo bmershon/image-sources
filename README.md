@@ -12,6 +12,8 @@ To start playing, start a server in the root directory and view *index.html*:
 python -m SimpleHTTPServer 8000
 ```
 
+*Tested in Chrome Version 48.0.2564.116 (64-bit).* This code uses some ES2015 standards like the `let` statement.
+
 ===
 
 This assignment was completed as part of 3D Digital Geometry (CS/Math 290), taken at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
