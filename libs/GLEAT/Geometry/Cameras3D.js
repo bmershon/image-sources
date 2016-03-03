@@ -192,14 +192,9 @@ function FPSCamera(pixWidth, pixHeight, yfov) {
 
         vec3.normalize(dir, dir);
         this.up = vec3.fromValues(0, 1, 0);
-        vec3.cross(right, dir, this.up);
+        vec3.cross(this.right, dir, this.up);
         vec3.cross(newUp, this.right, dir);
         this.up = newUp;
-
-        // q = quat.create();
-        // theta = angle(this.up, vec3.fromValues(0, 0, 0), dir);
-        // quat.setAxisAngle(q, this.right, Math.min(0, theta - Math.PI));
-        // vec3.transformQuat(this.up, this.up, q);
     }
     
     this.outputString = function() {

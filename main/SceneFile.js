@@ -397,7 +397,8 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
 
   // added feature
   glcanvas.zoomExtent = function() {
-    var extent,
+    var epsilon,
+        extent,
         c,
         corner,
         centroid,
@@ -409,8 +410,6 @@ function SceneCanvas(glcanvas, shadersRelPath, pixWidth, pixHeight, scene) {
          .computeBoundingBoxes();
 
     extent = glcanvas.scene.extent;
-
-    console.log("scene bbox:", extent);
 
     c = [(extent[0][0] + extent[0][1])/2,
          (extent[1][0] + extent[1][1])/2,
