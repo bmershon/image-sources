@@ -186,9 +186,7 @@ function FPSCamera(pixWidth, pixHeight, yfov) {
     this.look = function(direction) {
         var dir = vec3.clone(direction),
             right = vec3.create(),
-            newUp = vec3.create(),
-            theta,
-            q = quat.create();
+            newUp = vec3.create();
 
         vec3.normalize(dir, dir);
         this.up = vec3.fromValues(0, 1, 0);
