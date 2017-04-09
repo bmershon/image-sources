@@ -146,7 +146,7 @@ Paths are built by tracing back from a receiver and noting intersections with ap
 
 ![Scene](images/campus-quad-order-2.png)
 
-##### Implementation
+###### Implementation
 
 *The .scn file for this impulse response*
 
