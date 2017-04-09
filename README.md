@@ -14,7 +14,7 @@ python -m SimpleHTTPServer 8000
 
 *Tested in Chrome Version 48.0.2564.116 (64-bit).* This code uses some ES2015 standards like the `let` statement.
 
-===
+## Introduction
 
 This assignment was completed as part of 3D Digital Geometry (CS/Math 290), taken at Duke University during Spring 2016. The course was instructed by [Chris Tralie](http://www.ctralie.com/).
 
